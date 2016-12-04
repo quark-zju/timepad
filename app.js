@@ -99,13 +99,16 @@
       return this.lastAnnotatedResult;
     };
 
-    App.prototype.handleTextChange = function(e) {
+    App.prototype.commit = function(content) {
       var a, a1, a2, annotated, b, b1, b2, bi, blines, blocks, ctimeMap, j, l, len1, lineMap, ref1, ref2, ref3, ref4, ref5, rev, trivial;
-      if (!this.state.autoCommit) {
+      a = this.state.content;
+      b = content;
+      if (b.length > 0 && b.slice(-1) !== '\n') {
+        b += '\n';
+      }
+      if (a === b) {
         return;
       }
-      a = this.state.content;
-      b = e.target.value;
       blines = splitLines(b);
       ref1 = this.state, ctimeMap = ref1.ctimeMap, lineMap = ref1.lineMap;
       rev = this.linelog.getMaxRev();
@@ -134,6 +137,13 @@
       });
     };
 
+    App.prototype.handleTextChange = function(e) {
+      if (!this.state.autoCommit) {
+        return;
+      }
+      return this.commit(e.target.value);
+    };
+
     App.prototype.handleShowDeletedChange = function(e) {
       return this.setState({
         showDeleted: e.target.checked
@@ -154,9 +164,12 @@
     App.prototype.handleAutoCommitChange = function(e) {
       var value;
       value = e.target.checked;
-      return this.setState({
+      this.setState({
         autoCommit: value
       });
+      if (value) {
+        return this.commit(this.refs.editor.value);
+      }
     };
 
     App.prototype.getShowRev = function() {
