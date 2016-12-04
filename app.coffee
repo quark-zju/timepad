@@ -71,8 +71,7 @@ class App extends React.Component
       @lastAnnotatedRev = rev
     return @lastAnnotatedResult 
 
-  handleTextChange: (e) ->
-    return unless @state.autoCommit
+  commit: (content) ->
     a = @state.content
     b = e.target.value
     blines = splitLines(b)
@@ -93,6 +92,10 @@ class App extends React.Component
     ctimeMap[rev] = new Date()
     @setState {lineMap, ctimeMap, content: b}
 
+  handleTextChange: (e) ->
+    return unless @state.autoCommit
+    @commit e.target.value
+
   handleShowDeletedChange: (e) ->
     @setState showDeleted: e.target.checked
 
@@ -105,6 +108,8 @@ class App extends React.Component
   handleAutoCommitChange: (e) ->
     value = e.target.checked
     @setState autoCommit: value
+    if value
+      @commit @refs.editor.value
 
   getShowRev: ->
     rev = @state.showRev
