@@ -130,8 +130,38 @@ class App extends React.Component
       div className: 'column',
         textarea id: 'editor', ref: 'editor', onChange: @handleTextChange.bind(@)
       div className: 'column',
-        @renderControls()
+        if @linelog.getMaxRev() == 0
+          @renderReadme()
+        else
+          @renderControls()
         @renderAnnotated()
+
+  renderReadme: ->
+    pre className: 'readme', '''
+      This is a demo that shows the ability to "source control" a single
+      file in the javascript world where every line has a timestamp
+      (revision) attached and the annotate view is always enabled. There is
+      also a "Show deleted lines" feature that shows all lines ever
+      existed in the file to make it easier to understand what's happened
+      to the file from the beginning.
+
+      <- Type something in the editor.
+
+      This demo uses an "interleaved deltas" [1] implementation [2], making
+      space usage highly efficient and provides the "deleted lines" feature.
+
+      Technically, the annotate feature (except for "Show deleted lines")
+      could also be done by maintaining the "undo" snapshots, adding
+      timestamps to the snapshots, and pre-calculating annotate information.
+      But that is probably less space efficient and will have difficulty
+      providing the "deleted lines" feature efficiently.
+
+      Source code is available at [3].
+
+      [1]: https://en.wikipedia.org/wiki/Interleaved_deltas
+      [2]: https://bitbucket.org/facebook/hg-experimental/src/8af0e0/linelog
+      [3]: https://github.com/quark-zju/timepad
+      '''
 
   renderControls: ->
     maxRev = @linelog.getMaxRev()
