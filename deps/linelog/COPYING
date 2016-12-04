@@ -1,0 +1,7 @@
+linelog.c and linelog.h are owned by Facebook. They are obtained from the
+following URL under the GPL2 license:
+
+  https://bitbucket.org/facebook/hg-experimental/raw/c2f603f221b3b1419d19e9fc5df72e4581650059/linelog/linelog.c
+  https://bitbucket.org/facebook/hg-experimental/raw/c2f603f221b3b1419d19e9fc5df72e4581650059/linelog/linelog.h
+
+See LICENSE for the full text of the GPL2 license.
