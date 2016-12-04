@@ -54,7 +54,7 @@
   };
 
   isTrivialChange = function(diffBlocks, annotated, rev) {
-    var a1, a2, b1, b2, ref1;
+    var a1, a2, b1, b2, i, j, ref1, ref2;
     if (diffBlocks.length !== 1) {
       return false;
     }
@@ -62,7 +62,15 @@
     if (a2 - a1 !== 1 || b2 - b1 !== 1 || a1 !== b1) {
       return false;
     }
-    return annotated.get(a1)[0] === rev;
+    if (annotated.get(a1)[0] !== rev) {
+      return false;
+    }
+    for (i = j = 0, ref2 = annotated.size(); 0 <= ref2 ? j < ref2 : j > ref2; i = 0 <= ref2 ? ++j : --j) {
+      if (annotated.get(i)[0] === rev && i !== a1) {
+        return false;
+      }
+    }
+    return true;
   };
 
   vectorReduce = function(vec, f, init) {
@@ -195,7 +203,13 @@
         onChange: this.handleTextChange.bind(this)
       })), div({
         className: 'column'
-      }, this.renderControls(), this.renderAnnotated()));
+      }, this.linelog.getMaxRev() === 0 ? this.renderReadme() : this.renderControls(), this.renderAnnotated()));
+    };
+
+    App.prototype.renderReadme = function() {
+      return pre({
+        className: 'readme'
+      }, 'This is a demo that shows the ability to "source control" a single\nfile in the javascript world where every line has a timestamp\n(revision) attached and the annotate view is always enabled. There is\nalso a "Show deleted lines" feature that shows all lines ever\nexisted in the file to make it easier to understand what\'s happened\nto the file from the beginning.\n\n<- Type something in the editor.\n\nThis demo uses an "interleaved deltas" [1] implementation [2], making\nspace usage highly efficient and provides the "deleted lines" feature.\n\nTechnically, the annotate feature (except for "Show deleted lines")\ncould also be done by maintaining the "undo" snapshots, adding\ntimestamps to the snapshots, and pre-calculating annotate information.\nBut that is probably less space efficient and will have difficulty\nproviding the "deleted lines" feature efficiently.\n\nSource code is available at [3].\n\n[1]: https://en.wikipedia.org/wiki/Interleaved_deltas\n[2]: https://bitbucket.org/facebook/hg-experimental/src/8af0e0/linelog\n[3]: https://github.com/quark-zju/timepad');
     };
 
     App.prototype.renderControls = function() {
