@@ -42,7 +42,12 @@ isTrivialChange = (diffBlocks, annotated, rev) ->
   return false if diffBlocks.length != 1
   [a1, a2, b1, b2] = diffBlocks[0]
   return false if a2 - a1 != 1 or b2 - b1 != 1 or a1 != b1
-  annotated.get(a1)[0] == rev
+  return false if annotated.get(a1)[0] != rev
+  # if the last revision changed multiple lines, it's also non-trivial
+  for i in [0...annotated.size()]
+    if annotated.get(i)[0] == rev and i != a1
+      return false
+  true
 
 vectorReduce = (vec, f, init) ->
   result = init
