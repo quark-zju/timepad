@@ -1,0 +1,25 @@
+doctype html
+head
+  meta charset='utf-8'
+  title timepad
+  meta name='description' content='a demo project that shows the ability to \"source control\" a single file in the javascript world where lines are treated as first-class citizens'
+  link href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css' rel='stylesheet'
+  script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'
+  script src='https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js'
+  script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js'
+  script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js'
+  script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.min.js'
+  script src='deps/linelog/jsext/memlinelog.js'
+  script src='app.js'
+  scss:
+    html, body, #root { height: 100%; }
+    body { padding: 20px; }
+    textarea#editor { width: 100%; height: 100%; min-height: 500px; }
+    pre {
+      .timestamp { padding: 0px 4px; text-shadow: 1px 1px 0px white; }
+      .line { margin-left: 8px; }
+      &.deleted { background-color: #ffa0a0; }
+    }
+body
+  div#root
+    span Loading
