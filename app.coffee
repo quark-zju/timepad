@@ -73,7 +73,10 @@ class App extends React.Component
 
   commit: (content) ->
     a = @state.content
-    b = e.target.value
+    b = content
+    # hack: make sure b ends with '\n'
+    b += '\n' if b.length > 0 and b[-1..] != '\n'
+    return if a == b
     blines = splitLines(b)
     {ctimeMap, lineMap} = @state
     rev = @linelog.getMaxRev()
