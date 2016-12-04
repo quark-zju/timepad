@@ -8,7 +8,8 @@ every editor has? Kind of.
 This is a demo project that shows the ability to "source control" a single
 file in the javascript world where lines are treated as first-class citizens.
 
-Check the demo page to get an idea of what it could do. Basically, it could:
+Check the [demo page](quark-zju.github.io/timepad/) to get an idea of what it
+could do. Basically, it could do:
 
   - Real-time annotate information for every line so every line has timestamps
     automatically. No need to run "commit" using traditional source control
