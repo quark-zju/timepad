@@ -68,6 +68,7 @@ class App extends React.Component
       showDeleted: false
       showRev: null
       autoCommit: true
+      startRev: 0
 
   getAnnotated: (rev) ->
     if @lastAnnotatedRev != rev
@@ -107,8 +108,14 @@ class App extends React.Component
   handleShowDeletedChange: (e) ->
     @setState showDeleted: e.target.checked
 
+  handleStartRevChange: (e) ->
+    rev = parseInt(e.target.value)
+    @setState startRev: rev
+
   handleShowRevChange: (e) ->
     rev = parseInt(e.target.value)
+    if rev < @state.startRev
+      @setState startRev: rev
     if rev == @linelog.getMaxRev()
       rev = null
     @setState showRev: rev
@@ -166,6 +173,7 @@ class App extends React.Component
   renderControls: ->
     maxRev = @linelog.getMaxRev()
     rev = @getShowRev()
+    startRev = @state.startRev
     div className: 'level controls',
       label className: 'checkbox level-left',
         input className: 'level-item', type: 'checkbox', checked: @state.autoCommit, onChange: @handleAutoCommitChange.bind(@)
@@ -174,8 +182,12 @@ class App extends React.Component
         input className: 'level-item', type: 'checkbox', checked: @state.showDeleted, onChange: @handleShowDeletedChange.bind(@)
         span className: 'level-item', 'Show deleted lines'
       label className: 'range level-right',
-        span className: 'level-item', "Select revision (#{rev})"
+        span className: 'level-item', "Select rev (#{rev})"
         input className: 'level-item', type: 'range', value: rev, min: 0, max: maxRev, onChange: @handleShowRevChange.bind(@)
+        if @state.showDeleted
+          label className: 'range level-right',
+            span className: 'level-item', "Start rev (#{startRev})"
+            input className: 'level-item', type: 'range', value: startRev, min: 0, max: rev, onChange: @handleStartRevChange.bind(@)
 
   renderAnnotated: ->
     annotated = @getAnnotated @getShowRev()
@@ -188,6 +200,10 @@ class App extends React.Component
       lines = annotated
       isDeleted = (k) -> false
     rows = []
+    startRev = if @state.showDeleted
+                 @state.startRev
+               else
+                 0
     for i in [0...lines.size()]
       info = lines.get(i)
       k = info[0..1]
@@ -196,6 +212,8 @@ class App extends React.Component
       deleted = isDeleted(k)
       if deleted
         rgb = '140, 140, 140' 
+        if rev < startRev
+          continue
       else 
         rgb = '78, 154, 6'
       color = "rgba(#{rgb}, #{rev / maxRev})"
