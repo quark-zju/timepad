@@ -1,4 +1,20 @@
-{div, textarea, span, pre, input, label} = React.DOM
+{div, br, hr, textarea, span, pre, input, label, button} = React.DOM
+
+getText = (url, cb) ->
+  oReq = new XMLHttpRequest
+  oReq.addEventListener 'load', -> cb @responseText
+  oReq.open 'GET', url
+  oReq.send()
+
+getBinary = (url, cb) ->
+  oReq = new XMLHttpRequest
+  oReq.addEventListener 'load', -> cb @response
+  oReq.open 'GET', url
+  oReq.responseType = 'arraybuffer'
+  oReq.send()
+
+intToDate = (epoch) ->
+  new Date(epoch * 1000)
 
 dmp = new diff_match_patch
 
@@ -60,15 +76,17 @@ class App extends React.Component
     super props
     # linelog should be part of the "state" but it's mutable, expensive to
     # "copy", or "compare". So let's make it an instance variable.
-    @linelog = new MemLinelog
+    # export to window.$l so hackers could play with it
+    window.$l = @linelog = new MemLinelog
     @state =
       lineMap: {} # rev, linenum -> line content
       ctimeMap: {}   # rev -> creation time
+      publicMap: {}  # rev -> public desc
       content: ''
-      showDeleted: false
+      showAnnotated: true
       showRev: null
       autoCommit: true
-      startRev: 0
+      startRev: null
 
   getAnnotated: (rev) ->
     if @lastAnnotatedRev != rev
@@ -105,8 +123,8 @@ class App extends React.Component
     return unless @state.autoCommit
     @commit e.target.value
 
-  handleShowDeletedChange: (e) ->
-    @setState showDeleted: e.target.checked
+  handleShowAnnotatedChange: (e) ->
+    @setState showAnnotated: e.target.checked
 
   handleStartRevChange: (e) ->
     rev = parseInt(e.target.value)
@@ -120,11 +138,70 @@ class App extends React.Component
       rev = null
     @setState showRev: rev
 
+  handleRevisionBarClick: (rev, e) ->
+    newState = {}
+    if e.nativeEvent.offsetY <= e.target.clientHeight / 2
+      # set startRev
+      newState.startRev = rev
+      if rev >= @state.showRev and @state.showRev != null
+        newState.showRev = rev
+        newState.startRev = null
+    else
+      # set showRev
+      if rev <= @state.startRev
+        newState.startRev = null
+      newState.showRev = rev
+    if newState.showRev == @linelog.getMaxRev()
+      newState.showRev = null # so showRev points to new revisions
+    @setState newState
+
   handleAutoCommitChange: (e) ->
     value = e.target.checked
     @setState autoCommit: value
     if value
       @commit @refs.editor.value
+
+  handleLoadExample: (e) ->
+    name = 'mdiff.py'
+    await 
+      getBinary "assets/examples/#{name}.linelog.bin", defer linelogBuffer
+      getText "assets/examples/#{name}.alllines.json", defer allLines
+
+    ctimeMap = {}
+    lineMap = {}
+    publicMap = {}
+    @linelog.setRawBytes(linelogBuffer)
+    lineinfos = @linelog.getAllLines()
+    allLines = JSON.parse(allLines)
+    for line, i in allLines
+      info = lineinfos.get(i)
+      k = info[0..1]
+      rev = parseInt(k[0])
+      lineMap[k] = line['line']
+      ctimeMap[k[0]] = intToDate(line['date'][0])
+      publicMap[rev] = line
+    startRev = lineinfos.get(parseInt(Math.random() * (allLines.length - 1)))[0]
+    # reconstruct the current revision
+    content = ''
+    @linelog.annotate(@linelog.getMaxRev())
+    lines = @linelog.getAnnotateResult()
+    for i in [0...lines.size()]
+      info = lines.get(i)
+      k = info[0..1]
+      content += lineMap[k]
+    @lastAnnotatedRev = -1
+    @refs.editor.value = content
+    @setState {ctimeMap, lineMap, content, publicMap, startRev, showRev: null}
+
+  handleDoubleClickLine: (key, e) ->
+    m = @state.lineMap
+    content = m[key]
+    newContent = prompt("Edit a line in rev #{key[0]}", content)
+    if newContent != null && newContent != content
+      m[key] = newContent
+      @setState lineMap: m
+      e.stopPropagation()
+      e.preventDefault()
 
   getShowRev: ->
     rev = @state.showRev
@@ -132,67 +209,127 @@ class App extends React.Component
       rev = @linelog.getMaxRev()
     rev
 
+  getLineContentMapSize: ->
+    size = 0
+    for k, v of @state.lineMap
+      if v
+        size += k.length + v.length + 4
+    size
+
   render: ->
     div className: 'columns', style: {height: '100%'},
       div className: 'column',
         textarea id: 'editor', ref: 'editor', onChange: @handleTextChange.bind(@)
-      div className: 'column',
+      div className: 'column scroll', style: {maxWidth: '50%'},
         if @linelog.getMaxRev() == 0
           @renderReadme()
         else
           @renderControls()
-        @renderAnnotated()
+        if @state.showAnnotated
+          @renderAnnotated()
 
   renderReadme: ->
-    pre className: 'readme', '''
-      This is a demo that shows the ability to "source control" a single
-      file in the javascript world where every line has a timestamp
-      (revision) attached and the annotate view is always enabled. There is
-      also a "Show deleted lines" feature that shows all lines ever
-      existed in the file to make it easier to understand what's happened
-      to the file from the beginning.
+    div className: 'readmeFrame',
+      pre className: 'readme',
+        '''
+        This is a demo that shows the ability to "source control" a single
+        file in the javascript world using a data structure [1] inspired by
+        the "interleaved deltas" [2] idea.
 
-      <- Type something in the editor.
+        <- Try '''
+        React.DOM.a onClick: @handleLoadExample.bind(@), title: 'mercurial/mdiff.py', 'an example file'
+        br()
+        '''
+        <- And/or type something in the editor
 
-      This demo uses an "interleaved deltas" [1] implementation [2], making
-      space usage highly efficient and provides the "deleted lines" feature.
+        Source code is available at [3].
 
-      Technically, the annotate feature (except for "Show deleted lines")
-      could also be done by maintaining the "undo" snapshots, adding
-      timestamps to the snapshots, and pre-calculating annotate information.
-      But that is probably less space efficient and will have difficulty
-      providing the "deleted lines" feature efficiently.
-
-      Source code is available at [3].
-
-      [1]: https://en.wikipedia.org/wiki/Interleaved_deltas
-      [2]: https://bitbucket.org/facebook/hg-experimental/src/8af0e0/linelog
-      [3]: https://github.com/quark-zju/timepad
-      '''
+        [1]: https://bitbucket.org/facebook/hg-experimental/src/8af0e0/linelog
+        [2]: https://en.wikipedia.org/wiki/Interleaved_deltas
+        [3]: https://github.com/quark-zju/timepad
+        '''
 
   renderControls: ->
     maxRev = @linelog.getMaxRev()
     rev = @getShowRev()
     startRev = @state.startRev
-    div className: 'level controls',
-      label className: 'checkbox level-left',
-        input className: 'level-item', type: 'checkbox', checked: @state.autoCommit, onChange: @handleAutoCommitChange.bind(@)
-        span className: 'level-item', 'Auto commit'
-      label className: 'checkbox level-left',
-        input className: 'level-item', type: 'checkbox', checked: @state.showDeleted, onChange: @handleShowDeletedChange.bind(@)
-        span className: 'level-item', 'Show deleted lines'
-      label className: 'range level-right',
-        span className: 'level-item', "Select rev (#{rev})"
-        input className: 'level-item', type: 'range', value: rev, min: 0, max: maxRev, onChange: @handleShowRevChange.bind(@)
-        if @state.showDeleted
-          label className: 'range level-right',
-            span className: 'level-item', "Start rev (#{startRev})"
-            input className: 'level-item', type: 'range', value: startRev, min: 0, max: rev, onChange: @handleStartRevChange.bind(@)
+    div className: 'controls',
+      div className: 'control',
+        label className: 'checkbox level-left',
+          input className: 'level-item', type: 'checkbox', checked: @state.autoCommit, onChange: @handleAutoCommitChange.bind(@)
+          span className: 'level-item', "Real-time committing"
+        div className: 'desc',
+          'When turned on, changes to the left textbox will be recorded in real-time. '
+          'Try turn this off and do some non-trivial edits, and turn this on again. '
+          "The size of linelog (without line contents or commit metadata) is #{@linelog.getActualSize()} bytes. "
+      div className: 'control',
+        label className: 'checkbox',
+          input className: 'level-item', type: 'checkbox', checked: @state.showAnnotated, onChange: @handleShowAnnotatedChange.bind(@)
+          span className: 'level-item', 'Show annotated lines'
+        div className: 'desc',
+          'When turned on, annotated lines will be rendered below. Turn off if React rendering hurts perf. '
+          'Select a RANGE of revisions from the bar below to see the lines related to them. Click at the upper area to pick a starting revision, and the lower area for an ending revision. '
+          'Double-click a line to edit its content in THAT revision. This shows simple stack editing without merge conflicts. It could be made to support more complex cases, also see '
+          React.DOM.a href: 'assets/hgabsorb-note.pdf', 'hg absorb'
+          '. '
+          'Revisions of existing history (with known commit hashes) are in green. Local history in blue. Place your mouse over them to see commit hashes, authors, and dates. '
+      if @state.showAnnotated
+        div className: 'control',
+          @renderRevisionSelector()
+
+  renderRevisionSelector: ->
+    timeMap = @state.ctimeMap
+    publicMap = @state.publicMap
+
+    xs = [] # [[rev, pos, date, publicInfo]]
+    posMap = {} # rev -> pos
+    lastDate = null
+    lastPos = 0
+    lastRev = -1
+    localScale = 1
+    for rev in [0..@linelog.getMaxRev()]
+      date = timeMap[rev]
+      if !date
+        continue
+      pub = publicMap[rev]
+      pos = if lastRev == -1
+              1
+            else
+              diffSeconds = Math.max(1, (date - lastDate) / 1000.0)
+              lastPos + Math.sqrt(diffSeconds) * localScale
+      if !pub and localScale == 1
+        localScale = pos * 0.42 / (@linelog.getMaxRev() - xs.length + 1)
+      xs.push([rev, pos, date, pub])
+      posMap[rev] = pos
+      lastDate = date
+      lastPos = pos
+      lastRev = rev
+
+    width = lastPos + 1
+    getLeftCss = (pos) -> "calc(#{pos * 98.0 / width}% - 2px)"
+
+    showRev = @state.showRev or @linelog.getMaxRev()
+    startRev = @state.startRev or showRev
+
+    div className: 'rev-selector',
+      xs.map (revpos) =>
+        [rev, pos, date, pub] = revpos
+        m = moment(timeMap[rev])
+        title = if pub
+                  "#{pub['node'][0..7]} by #{pub['user']} at #{m.format('MMM Do YY')}"
+                else
+                  "Local change #{m.fromNow()}"
+        span key: rev, className: "rev-dot #{pub and 'public'}", style: {left: getLeftCss(pos)}, title: title, onClick: @handleRevisionBarClick.bind(@, rev)
+      span className: "rev-left-slider #{@state.startRev or 'follow'}", style: {left: getLeftCss(posMap[startRev])}
+      span className: "rev-right-slider #{@state.showRev or 'follow'}", style: {left: getLeftCss(posMap[showRev])}
 
   renderAnnotated: ->
     annotated = @getAnnotated @getShowRev()
     maxRev = @linelog.getMaxRev()
-    if @state.showDeleted
+    endRev = @state.showRev or maxRev
+    startRev = @state.startRev or endRev
+    showDeleted = (startRev != endRev)
+    if showDeleted
       lines = @linelog.getAllLines()
       lineSet = vectorReduce(annotated, ((m, v) -> m[v[0..1]] = 1; m), {})
       isDeleted = (k) -> not lineSet[k]
@@ -200,27 +337,31 @@ class App extends React.Component
       lines = annotated
       isDeleted = (k) -> false
     rows = []
-    startRev = if @state.showDeleted
-                 @state.startRev
-               else
-                 0
     for i in [0...lines.size()]
       info = lines.get(i)
       k = info[0..1]
       rev = k[0]
       m = moment(@state.ctimeMap[rev])
       deleted = isDeleted(k)
-      if deleted
-        rgb = '140, 140, 140' 
-        if rev < startRev
-          continue
-      else 
+      pub = @state.publicMap[rev] # public info
+      if deleted and (rev < startRev or rev > endRev)
+        continue
+      if pub
         rgb = '78, 154, 6'
+        desc = "#{pub['node'][0..7]} by #{pub['user']} at #{m.format('MMM Do YY')} (rev,linenum=#{k})"
+        revStr = "#{rev}"
+        short = '          '[0..(7 - revStr.length)] + revStr
+      else
+        rgb = '114, 159, 207'
+        desc = "Local change at #{m.fromNow()} (rev,linenum=#{k})"
+        short = m.format('HH:mm:ss')
       color = "rgba(#{rgb}, #{rev / maxRev})"
-      rows.push pre key: k, className: "#{deleted and 'deleted'}", title: "#{m.format()} rev,linenum=#{k}",
-        span className: 'timestamp', style: {backgroundColor: color}, m.format('HH:mm:ss')
-        span className: "line", @state.lineMap[k]
-    rows
+      rows.push pre key: k, className: "line #{deleted and 'deleted'} #{pub and 'public'}", title: desc, onDoubleClick: @handleDoubleClickLine.bind(@, k),
+        span className: 'timestamp', style: {backgroundColor: color}, short
+        span className: "line-content", @state.lineMap[k]
+    if rows.length > 0
+      div className: 'annotated', style: {height: "100%", maxWidth: '100%'},
+        rows
 
 document.addEventListener 'DOMContentLoaded', ->
   ReactDOM.render React.createElement(App), document.querySelector('#root')

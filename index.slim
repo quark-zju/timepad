@@ -3,7 +3,7 @@ head
   meta charset='utf-8'
   title timepad
   meta name='description' content='a demo project that shows the ability to \"source control\" a single file in the javascript world where lines are treated as first-class citizens'
-  link href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css' rel='stylesheet'
+  link href='https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.min.css' rel='stylesheet'
   script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'
   script src='https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js'
   script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js'
@@ -13,12 +13,93 @@ head
   script src='app.js'
   scss:
     html, body, #root { height: 100%; }
-    body { padding: 20px; }
+    body { padding: 10px; }
     textarea#editor { width: 100%; height: 100%; min-height: 500px; }
     pre {
       .timestamp { padding: 0px 4px; text-shadow: 1px 1px 0px white; }
       .line { margin-left: 8px; }
-      &.deleted { background-color: #ffa0a0; }
+      &.deleted { background-color: #ffa0a0 !important; }
+      a {
+        cursor: pointer;
+        text-decoration: underline;
+        color: blue;
+      }
+    }
+    .columns {
+      display: flex;
+      flex-direction: row;
+    }
+    .column {
+      flex: 1;
+      padding: 10px;
+    }
+    .controls {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow-y: auto;
+    }
+    .desc {
+      padding-left: 1.2em;
+      font-size: 76%;
+    }
+    .scroll {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    .line:hover {
+      background-color: #dfdfdf;
+    }
+    $rev-bar-height: 28px;
+    .rev-selector {
+      width: 100%;
+      border-top: 1px solid #777;
+      border-bottom: 1px solid #777;
+      height: $rev-bar-height;
+      background-color: #eee;
+      position: relative;
+      margin-bottom: 0.8em;
+    }
+    .rev-dot {
+      top: 1px;
+      width: 3px;
+      height: $rev-bar-height - 4px;
+      background-color: #729fcf;
+      cursor: pointer;
+      position: absolute;
+      &.public {
+        background-color: #4e9a06;
+      }
+    }
+    .rev-right-slider {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: $rev-bar-height - 7px;
+      margin-left: -4px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid black;
+      &.follow {
+        border-bottom: 6px solid #666;
+      }
+    }
+    .rev-left-slider {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 0;
+      margin-left: -4px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid black;
+      &.follow {
+        border-top: 6px solid #666;
+      }
+    }
+    div.control {
+      margin-bottom: 0.8em;
+    }
+    label {
+      cursor: pointer;
     }
 body
   div#root
