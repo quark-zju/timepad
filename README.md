@@ -34,8 +34,8 @@ How to build?
 
 * To be able to rebuild `index.html`, `slimrb` (which is part of the `slim`
   ruby gem) is needed.
-* To be able to rebuild `app.js`, `coffee` (which is part of the `coffee` npm
-  package) is needed.
+* To be able to rebuild `app.js`, `iced` (which is part of the
+  `iced-coffee-script` npm package) is needed.
 * To be able to rebuild `memlinelog.js`, `emscripten`
   ([homepage](http://emscripten.org/)) is needed.
 

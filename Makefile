@@ -4,4 +4,4 @@ index.html: index.slim
 	slimrb $^ > $@
 
 app.js: app.coffee
-	coffee -c $^
+	iced -I window -c $^
