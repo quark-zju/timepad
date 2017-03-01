@@ -1,0 +1,5990 @@
+[
+ {
+  "date": [1117835074.0, 28800],
+  "line": "# mdiff.py - diff and patch routines for mercurial\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117835074.0, 28800],
+  "line": "#\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1155411002.0, 25200],
+  "line": "# Copyright 2005, 2006 Matt Mackall <mpm@selenic.com>\n",
+  "node": "345bac2bc4ec22acdae6f1edce58270cd6043957",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1117835074.0, 28800],
+  "line": "# Copyright 2005 Matt Mackall <mpm@selenic.com>\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117835074.0, 28800],
+  "line": "#\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1240700934.0, -7200],
+  "line": "# This software may be used and distributed according to the terms of the\n",
+  "node": "46293a0c7e9ff247fa033b7fb37b34b148ac1ea6",
+  "user": "Martin Geisler <mg@lazybytes.net>"
+ },
+ {
+  "date": [1263961208.0, 21600],
+  "line": "# GNU General Public License version 2 or any later version.\n",
+  "node": "25e572394f5c3bae9c4706b5529cb78555295a85",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1240700934.0, -7200],
+  "line": "# GNU General Public License version 2, incorporated herein by reference.\n",
+  "node": "46293a0c7e9ff247fa033b7fb37b34b148ac1ea6",
+  "user": "Martin Geisler <mg@lazybytes.net>"
+ },
+ {
+  "date": [1117835074.0, 28800],
+  "line": "# This software may be used and distributed according to the terms\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117835074.0, 28800],
+  "line": "# of the GNU General Public License, incorporated herein by reference.\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117835074.0, 28800],
+  "line": "\n",
+  "node": "75840796e8e22db31caaf94eea8827324b63dd32",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "#!/usr/bin/python\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "from __future__ import absolute_import\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "import re\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "import struct\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "import zlib\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "from .i18n import _\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "from . import (\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "    base85,\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "    bdiff,\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "    error,\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "    mpatch,\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": "    util,\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1450761974.0, 28800],
+  "line": ")\n",
+  "node": "0d7635dca69105be86df4185f8bd05069370874d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "from i18n import _\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1444334145.0, 25200],
+  "line": "import bdiff, mpatch, util, base85, error\n",
+  "node": "56b2bcea252913e4a2d2772d2f35cd7e07b37f12",
+  "user": "Pierre-Yves David <pierre-yves.david@fb.com>"
+ },
+ {
+  "date": [1383774486.0, 18000],
+  "line": "import bdiff, mpatch, util, base85\n",
+  "node": "1e5b38a919dd460ec7602dbd7c5d33bbdd008fb1",
+  "user": "Augie Fackler <raf@durin42.com>"
+ },
+ {
+  "date": [1383774486.0, 18000],
+  "line": "import re, struct, zlib\n",
+  "node": "1e5b38a919dd460ec7602dbd7c5d33bbdd008fb1",
+  "user": "Augie Fackler <raf@durin42.com>"
+ },
+ {
+  "date": [1240933246.0, -7200],
+  "line": "import bdiff, mpatch, util\n",
+  "node": "b87a50b7125c6c2f14314e6393435b2b98679ae0",
+  "user": "Simon Heimberg <simohe@besonet.ch>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "import re, struct, base85, zlib\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "from node import hex, nullid\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1240933246.0, -7200],
+  "line": "import re, struct\n",
+  "node": "b87a50b7125c6c2f14314e6393435b2b98679ae0",
+  "user": "Simon Heimberg <simohe@besonet.ch>"
+ },
+ {
+  "date": [1207341400.0, -7200],
+  "line": "import bdiff, mpatch, re, struct, util\n",
+  "node": "ac0bcd951c2c95b32a1b6cc09f0de66b56b6ed1b",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1172001323.0, -3600],
+  "line": "import bdiff, mpatch, re, struct, util, md5\n",
+  "node": "226df1808f16312ffc2acc4a41a6fd5de2d5de71",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1166038029.0, 21600],
+  "line": "import bdiff, mpatch, re, struct, util\n",
+  "node": "abaee83ce0a6deb8adb8fc1f67685954fc7a4e27",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "from demandload import demandload\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1150873101.0, 25200],
+  "line": "import bdiff, mpatch\n",
+  "node": "fe1689273f84d9ab7dc51cce677ee72b4f540f7a",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1150873101.0, 25200],
+  "line": "demandload(globals(), \"re struct util\")\n",
+  "node": "fe1689273f84d9ab7dc51cce677ee72b4f540f7a",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "import struct, bdiff, util, mpatch\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "demandload(globals(), \"re\")\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1128450348.0, 25200],
+  "line": "import difflib, struct, bdiff, util, mpatch\n",
+  "node": "8ee7ce877be2a4d4e525e7f995d9942920b6a319",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1119468181.0, 28800],
+  "line": "import difflib, struct, bdiff\n",
+  "node": "3b9e3d3d2810e4ab7394cab0be3ce25aa72ef5e5",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1119468181.0, 28800],
+  "line": "from mpatch import *\n",
+  "node": "3b9e3d3d2810e4ab7394cab0be3ce25aa72ef5e5",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117923392.0, 28800],
+  "line": "import difflib, struct\n",
+  "node": "619e775aa7f9166c09555c8b7cbd70b50a1f4723",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116645565.0, 28800],
+  "line": "import difflib, struct, mmap\n",
+  "node": "44538462d3c83dfc968e62a8115c73f54691f7f7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116645565.0, 28800],
+  "line": "from mercurial.mpatch import *\n",
+  "node": "44538462d3c83dfc968e62a8115c73f54691f7f7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116640165.0, 28800],
+  "line": "import difflib, struct, mmap, mpatchs\n",
+  "node": "8913e13196e1d999e9723792a75af8990958f7ad",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "import difflib, struct, mmap\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "devzero = file(\"/dev/zero\")\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "import difflib, struct\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "from cStringIO import StringIO\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1124852326.0, 25200],
+  "line": "from util import *\n",
+  "node": "22571b8d35d3fce8c7d596579da586948ec928da",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "def splitnewlines(text):\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "def splitnewlines(text, keepends=False):\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "    '''like str.splitlines, but only split on newlines.'''\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "    lines = [l + '\\n' for l in text.split('\\n')]\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "    if lines:\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "        if lines[-1] == '\\n':\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "            lines.pop()\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "        else:\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "            lines[-1] = lines[-1][:-1]\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "    return lines\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "    i = 0\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "    lines = []\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "    while True:\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        n = text.find('\\n', i)\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        if n == -1:\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "            last = text[i:]\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "            if last:\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "                lines.append(last)\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "            return lines\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        lines.append(text[i:keepends and n+1 or n])\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        i = n + 1\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "class diffopts(object):\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    '''context is the number of context lines\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    text treats all files as text\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    showfunc enables diff -p output\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155620883.0, 25200],
+  "line": "    git enables the git extended patch format\n",
+  "node": "8b02af86599076a57635eca2e503156874a6185a",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1159225524.0, -3600],
+  "line": "    nodates removes dates from diff headers\n",
+  "node": "096f1c73cdc333779ec21e32482a5323da6d446f",
+  "user": "Stephen Darnell <stephen@darnell.plus.com>"
+ },
+ {
+  "date": [1415863184.0, 28800],
+  "line": "    nobinary ignores binary files\n",
+  "node": "b89856abf4e214e28a8bd663f0e5220f2621dd09",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863532.0, 28800],
+  "line": "    noprefix disables the 'a/' and 'b/' prefixes (ignored in plain mode)\n",
+  "node": "ec8c73b02e2eb791e59e3137700522d62674b893",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    ignorews ignores all whitespace changes in the diff\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    ignorewsamount ignores changes in the amount of whitespace\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1262375645.0, -3600],
+  "line": "    ignoreblanklines ignores changes whose lines are all blank\n",
+  "node": "e451e599fbcf5e98a791558c99a0c6dbdceb0e74",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262375645.0, -3600],
+  "line": "    upgrade generates git diffs to avoid data loss\n",
+  "node": "e451e599fbcf5e98a791558c99a0c6dbdceb0e74",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262375645.0, -3600],
+  "line": "    '''\n",
+  "node": "e451e599fbcf5e98a791558c99a0c6dbdceb0e74",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    ignoreblanklines ignores changes whose lines are all blank'''\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "def unidiff(a, ad, b, bd, fn, r=None, text=False,\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            showfunc=False, ignorews=False, ignorewsamount=False,\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            ignoreblanklines=False):\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            showfunc=False, ignorews=False):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1124852326.0, 25200],
+  "line": "def unidiff(a, ad, b, bd, fn, r=None, text=False):\n",
+  "node": "22571b8d35d3fce8c7d596579da586948ec928da",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1119037043.0, -3600],
+  "line": "def unidiff(a, ad, b, bd, fn, r=None):\n",
+  "node": "8f8bb77d560e70bcc95577e4dfa877df18d876ab",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1119037043.0, -3600],
+  "line": "\n",
+  "node": "8f8bb77d560e70bcc95577e4dfa877df18d876ab",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "def unidiff(a, ad, b, bd, fn):\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "def unidiff(a, b, fn):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    defaults = {\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        'context': 3,\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        'text': False,\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1200503664.0, 21600],
+  "line": "        'showfunc': False,\n",
+  "node": "3d1f9dcecdea2b6fbaf1d66af1851f75062a3813",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        'showfunc': True,\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155620883.0, 25200],
+  "line": "        'git': False,\n",
+  "node": "8b02af86599076a57635eca2e503156874a6185a",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1159225524.0, -3600],
+  "line": "        'nodates': False,\n",
+  "node": "096f1c73cdc333779ec21e32482a5323da6d446f",
+  "user": "Stephen Darnell <stephen@darnell.plus.com>"
+ },
+ {
+  "date": [1403330209.0, -36000],
+  "line": "        'nobinary': False,\n",
+  "node": "3fbef7ac26f05bca222e1c99e6469bdb2fd35528",
+  "user": "Stephen Lee <sphen.lee@gmail.com>"
+ },
+ {
+  "date": [1415863532.0, 28800],
+  "line": "        'noprefix': False,\n",
+  "node": "ec8c73b02e2eb791e59e3137700522d62674b893",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1483989227.0, 28800],
+  "line": "        'index': 0,\n",
+  "node": "d1901c4c8ec016110ba09d1b9ce409973758caf7",
+  "user": "Sean Farley <sean@farley.io>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        'ignorews': False,\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        'ignorewsamount': False,\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        'ignoreblanklines': False,\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1262375645.0, -3600],
+  "line": "        'upgrade': False,\n",
+  "node": "e451e599fbcf5e98a791558c99a0c6dbdceb0e74",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1483987904.0, 28800],
+  "line": "        'showsimilarity': False,\n",
+  "node": "e2796f193f067cc87fe34dec5fb2d5a1b13e78d2",
+  "user": "Sean Farley <sean@farley.io>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        }\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    __slots__ = defaults.keys()\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    def __init__(self, **opts):\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1466887966.0, 25200],
+  "line": "        for k in self.defaults.keys():\n",
+  "node": "30789efb1e5ead5f357fd079f04664295a42860d",
+  "user": "Gregory Szorc <gregory.szorc@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        for k in self.__slots__:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "            v = opts.get(k)\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "            if v is None:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "                v = self.defaults[k]\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "            setattr(self, k, v)\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "        try:\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "            self.context = int(self.context)\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "        except ValueError:\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1444334145.0, 25200],
+  "line": "            raise error.Abort(_('diff context lines count must be '\n",
+  "node": "56b2bcea252913e4a2d2772d2f35cd7e07b37f12",
+  "user": "Pierre-Yves David <pierre-yves.david@fb.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "            raise util.Abort(_('diff context lines count must be '\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "                               'an integer, not %r') % self.context)\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1207340114.0, -7200],
+  "line": "\n",
+  "node": "65029a3aafc23e33c7aeb6d4d60b78bc61199763",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262371985.0, -3600],
+  "line": "    def copy(self, **kwargs):\n",
+  "node": "7637fe4f525d69bd789904f15129166533eb58f7",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262371985.0, -3600],
+  "line": "        opts = dict((k, getattr(self, k)) for k in self.defaults)\n",
+  "node": "7637fe4f525d69bd789904f15129166533eb58f7",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262371985.0, -3600],
+  "line": "        opts.update(kwargs)\n",
+  "node": "7637fe4f525d69bd789904f15129166533eb58f7",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262371985.0, -3600],
+  "line": "        return diffopts(**opts)\n",
+  "node": "7637fe4f525d69bd789904f15129166533eb58f7",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1262371985.0, -3600],
+  "line": "\n",
+  "node": "7637fe4f525d69bd789904f15129166533eb58f7",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "defaultopts = diffopts()\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "def wsclean(opts, text, blank=True):\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "def wsclean(opts, text):\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "    if opts.ignorews:\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1321622583.0, -3600],
+  "line": "        text = bdiff.fixws(text, 1)\n",
+  "node": "eeac5e17924354c4afeb6001ed69a06805189520",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1287453306.0, -7200],
+  "line": "        text = re.sub('[ \\t\\r]+', '', text)\n",
+  "node": "8eb758ea738c428c15a41e18422bf4ede262ed19",
+  "user": "Mads Kiilerich <mads@kiilerich.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "        text = re.sub('[ \\t]+', '', text)\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "    elif opts.ignorewsamount:\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1321622583.0, -3600],
+  "line": "        text = bdiff.fixws(text, 0)\n",
+  "node": "eeac5e17924354c4afeb6001ed69a06805189520",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1287453306.0, -7200],
+  "line": "        text = re.sub('[ \\t\\r]+', ' ', text)\n",
+  "node": "8eb758ea738c428c15a41e18422bf4ede262ed19",
+  "user": "Mads Kiilerich <mads@kiilerich.com>"
+ },
+ {
+  "date": [1287453306.0, -7200],
+  "line": "        text = text.replace(' \\n', '\\n')\n",
+  "node": "8eb758ea738c428c15a41e18422bf4ede262ed19",
+  "user": "Mads Kiilerich <mads@kiilerich.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "        text = re.sub('[ \\t]+', ' ', text)\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "        text = re.sub('[ \\t]+\\n', '\\n', text)\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "    if blank and opts.ignoreblanklines:\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "    if opts.ignoreblanklines:\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1321216634.0, -3600],
+  "line": "        text = re.sub('\\n+', '\\n', text).strip('\\n')\n",
+  "node": "3774e1453ef49cd65da9571704c180b9ef5ca5f6",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "        text = re.sub('\\n+', '', text)\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "    return text\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "def splitblock(base1, lines1, base2, lines2, opts):\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    # The input lines matches except for interwoven blank lines. We\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    # transform it into a sequence of matching blocks and blank blocks.\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    lines1 = [(wsclean(opts, l) and 1 or 0) for l in lines1]\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    lines2 = [(wsclean(opts, l) and 1 or 0) for l in lines2]\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    s1, e1 = 0, len(lines1)\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    s2, e2 = 0, len(lines2)\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    while s1 < e1 or s2 < e2:\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "        i1, i2, btype = s1, s2, '='\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "        if (i1 >= e1 or lines1[i1] == 0\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            or i2 >= e2 or lines2[i2] == 0):\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            # Consume the block of blank lines\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            btype = '~'\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            while i1 < e1 and lines1[i1] == 0:\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "                i1 += 1\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            while i2 < e2 and lines2[i2] == 0:\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "                i2 += 1\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "        else:\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            # Consume the matching lines\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "            while i1 < e1 and lines1[i1] == 1 and lines2[i2] == 1:\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "                i1 += 1\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "                i2 += 1\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "        yield [base1 + s1, base1 + i1, base2 + s2, base2 + i2], btype\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "        s1 = i1\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "        s2 = i2\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "def blocksinrange(blocks, rangeb):\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    \"\"\"filter `blocks` like (a1, a2, b1, b2) from items outside line range\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    `rangeb` from ``(b1, b2)`` point of view.\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    Return `filteredblocks, rangea` where:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    * `filteredblocks` is list of ``block = (a1, a2, b1, b2), stype`` items of\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "      `blocks` that are inside `rangeb` from ``(b1, b2)`` point of view; a\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "      block ``(b1, b2)`` being inside `rangeb` if\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "      ``rangeb[0] < b2 and b1 < rangeb[1]``;\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    * `rangea` is the line range w.r.t. to ``(a1, a2)`` parts of `blocks`.\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    \"\"\"\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    lbb, ubb = rangeb\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    lba, uba = None, None\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    filteredblocks = []\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    for block in blocks:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "        (a1, a2, b1, b2), stype = block\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "        if lbb >= b1 and ubb <= b2 and stype == '=':\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            # rangeb is within a single \"=\" hunk, restrict back linerange1\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            # by offsetting rangeb\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            lba = lbb - b1 + a1\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            uba = ubb - b1 + a1\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "        else:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            if b1 <= lbb < b2:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                if stype == '=':\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                    lba = a2 - (b2 - lbb)\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                else:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                    lba = a1\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            if b1 < ubb <= b2:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                if stype == '=':\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                    uba = a1 + (ubb - b1)\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                else:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "                    uba = a2\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "        if lbb < b2 and b1 < ubb:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "            filteredblocks.append(block)\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    if lba is None or uba is None or uba < lba:\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "        raise error.Abort(_('line range exceeds file size'))\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "    return filteredblocks, (lba, uba)\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1483463758.0, -3600],
+  "line": "\n",
+  "node": "3eeb8e138e5ccef411da783013518fbcb31b3e55",
+  "user": "Denis Laxalde <denis.laxalde@logilab.fr>"
+ },
+ {
+  "date": [1474980394.0, -7200],
+  "line": "def allblocks(text1, text2, opts=None, lines1=None, lines2=None):\n",
+  "node": "ff17dff99295e0781b3f147da2c5e5b14d3436e4",
+  "user": "Philippe Pepiot <philippe.pepiot@logilab.fr>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "def allblocks(text1, text2, opts=None, lines1=None, lines2=None, refine=False):\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "def allblocks(text1, text2, opts=None, lines1=None, lines2=None):\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    \"\"\"Return (block, type) tuples, where block is an mdiff.blocks\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    line entry. type is '=' for blocks matching exactly one another\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    (bdiff blocks), '!' for non-matching blocks and '~' for blocks\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1474980394.0, -7200],
+  "line": "    matching only after having filtered blank lines.\n",
+  "node": "ff17dff99295e0781b3f147da2c5e5b14d3436e4",
+  "user": "Philippe Pepiot <philippe.pepiot@logilab.fr>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    matching only after having filtered blank lines. If refine is True,\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614271.0, -3600],
+  "line": "    then '~' blocks are refined and are only made of blank lines.\n",
+  "node": "a84698badf0b7e42afb9582d9711cac66fc2a743",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    matching only after having filtered blank lines.\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    line1 and line2 are text1 and text2 split with splitnewlines() if\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    they are already available.\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "def diffblocks(text1, text2, opts=None, lines1=None, lines2=None):\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    \"\"\"Return changed blocks between text1 and text2, the blocks in-between\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    those emitted by bdiff.blocks. Take in account the whitespace normalization\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    rules defined by opts.\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    line1 and line2 are text1 and text2 split with splitnewlines() if they are\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    already available.\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    \"\"\"\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    if opts is None:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        opts = defaultopts\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    if lines1 is None:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        lines1 = splitnewlines(text1)\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    if lines2 is None:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        lines2 = splitnewlines(text2)\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    if opts.ignorews or opts.ignorewsamount:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        text1 = wsclean(opts, text1, False)\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        text2 = wsclean(opts, text2, False)\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    diff = bdiff.blocks(text1, text2)\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    for i, s1 in enumerate(diff):\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        # The first match is special.\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        # we've either found a match starting at line 0 or a match later\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        # in the file.  If it starts later, old and new below will both be\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        # empty and we'll continue to the next match.\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        if i > 0:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "            s = diff[i - 1]\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        else:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "            s = [0, 0, 0, 0]\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        s = [s[1], s1[0], s[3], s1[2]]\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        old = lines1[s[0]:s[1]]\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        new = lines2[s[2]:s[3]]\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        # bdiff sometimes gives huge matches past eof, this check eats them,\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        # and deals with the special first match case described above\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "        if s[0] != s[1] or s[2] != s[3]:\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "        if old or new:\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "            type = '!'\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "            if opts.ignoreblanklines:\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                if lines1 is None:\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                    lines1 = splitnewlines(text1)\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                if lines2 is None:\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                    lines2 = splitnewlines(text2)\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                old = wsclean(opts, \"\".join(lines1[s[0]:s[1]]))\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                new = wsclean(opts, \"\".join(lines2[s[2]:s[3]]))\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321622207.0, -3600],
+  "line": "                if old == new:\n",
+  "node": "b35cf47286a6bf7fe6e7f63f1d56e1b5f96bf4b3",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "                cold = wsclean(opts, \"\".join(old))\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "                cnew = wsclean(opts, \"\".join(new))\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "                if cold == cnew:\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "                    type = '~'\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "            yield s, type\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "        yield s1, '='\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        if not old and not new:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "            continue\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        if opts.ignoreblanklines:\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "            if wsclean(opts, \"\".join(old)) == wsclean(opts, \"\".join(new)):\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "                continue\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        yield s\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "def diffline(revs, a, b, opts):\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    parts = ['diff']\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    if opts.git:\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "        parts.append('--git')\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    if revs and not opts.git:\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "        parts.append(' '.join([\"-r %s\" % rev for rev in revs]))\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    if opts.git:\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "        parts.append('a/%s' % a)\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "        parts.append('b/%s' % b)\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    else:\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "        parts.append(a)\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    return ' '.join(parts) + '\\n'\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1224694507.0, -7200],
+  "line": "\n",
+  "node": "ad28279053efbad6d57991f47bb65b5f2a310f23",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "    \n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1353010568.0, 28800],
+  "line": "def unidiff(a, ad, b, bd, fn1, fn2, opts=defaultopts):\n",
+  "node": "c84ef0047a94ff9021d9f7a18779b732a413cd09",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "def unidiff(a, ad, b, bd, fn1, fn2, r=None, opts=defaultopts):\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "def unidiff(a, ad, b, bd, fn, r=None, opts=defaultopts):\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "    def datetag(date, fn=None):\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "    def datetag(date, addtab=True):\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "        if not opts.git and not opts.nodates:\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "            return '\\t%s\\n' % date\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "        if fn and ' ' in fn:\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "        if addtab and ' ' in fn1:\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "        if addtab and ' ' in fn:\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "            return '\\t\\n'\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "        return '\\n'\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "    def datetag(date):\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1159225524.0, -3600],
+  "line": "        return (opts.git or opts.nodates) and '\\n' or '\\t%s\\n' % date\n",
+  "node": "096f1c73cdc333779ec21e32482a5323da6d446f",
+  "user": "Stephen Darnell <stephen@darnell.plus.com>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "        return opts.git and '\\n' or '\\t%s\\n' % date\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "    if not a and not b:\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "        return \"\"\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1115511050.0, 28800],
+  "line": "    if not a and not b: return \"\"\n",
+  "node": "9197c26a414becaaf2fec9d2097df99f16441907",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "    if opts.noprefix:\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        aprefix = bprefix = ''\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "    else:\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        aprefix = 'a/'\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        bprefix = 'b/'\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1128450348.0, 25200],
+  "line": "    epoch = util.datestr((0, 0))\n",
+  "node": "8ee7ce877be2a4d4e525e7f995d9942920b6a319",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1128450108.0, 25200],
+  "line": "    epoch = datestr((0,0))\n",
+  "node": "a0fcfbbf52bb411ca0c7c42d0256b12dfbb55432",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1320630540.0, -3600],
+  "line": "    fn1 = util.pconvert(fn1)\n",
+  "node": "8f08b635cdce9789bcc2b10505e0795f1d87c582",
+  "user": "Mads Kiilerich <mads@kiilerich.com>"
+ },
+ {
+  "date": [1320630540.0, -3600],
+  "line": "    fn2 = util.pconvert(fn2)\n",
+  "node": "8f08b635cdce9789bcc2b10505e0795f1d87c582",
+  "user": "Mads Kiilerich <mads@kiilerich.com>"
+ },
+ {
+  "date": [1320630540.0, -3600],
+  "line": "\n",
+  "node": "8f08b635cdce9789bcc2b10505e0795f1d87c582",
+  "user": "Mads Kiilerich <mads@kiilerich.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    if not opts.text and (util.binary(a) or util.binary(b)):\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1128450348.0, 25200],
+  "line": "    if not text and (util.binary(a) or util.binary(b)):\n",
+  "node": "8ee7ce877be2a4d4e525e7f995d9942920b6a319",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1124852326.0, 25200],
+  "line": "    if not text and (binary(a) or binary(b)):\n",
+  "node": "22571b8d35d3fce8c7d596579da586948ec928da",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1218240622.0, -7200],
+  "line": "        if a and b and len(a) == len(b) and a == b:\n",
+  "node": "13fe85fe396bbabcef5a69d172c92325fd194234",
+  "user": "Martin Geisler <mg@daimi.au.dk>"
+ },
+ {
+  "date": [1171713296.0, 7200],
+  "line": "        def h(v):\n",
+  "node": "544838cc1158b14b3475f85e596556633c398845",
+  "user": "tailgunner@smtp.ru"
+ },
+ {
+  "date": [1171713296.0, 7200],
+  "line": "            # md5 is used instead of sha1 because md5 is supposedly faster\n",
+  "node": "544838cc1158b14b3475f85e596556633c398845",
+  "user": "tailgunner@smtp.ru"
+ },
+ {
+  "date": [1207341400.0, -7200],
+  "line": "            return util.md5(v).digest()\n",
+  "node": "ac0bcd951c2c95b32a1b6cc09f0de66b56b6ed1b",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1171713296.0, 7200],
+  "line": "            return md5.new(v).digest()\n",
+  "node": "544838cc1158b14b3475f85e596556633c398845",
+  "user": "tailgunner@smtp.ru"
+ },
+ {
+  "date": [1171713296.0, 7200],
+  "line": "        if a and b and len(a) == len(b) and h(a) == h(b):\n",
+  "node": "544838cc1158b14b3475f85e596556633c398845",
+  "user": "tailgunner@smtp.ru"
+ },
+ {
+  "date": [1171713296.0, 7200],
+  "line": "            return \"\"\n",
+  "node": "544838cc1158b14b3475f85e596556633c398845",
+  "user": "tailgunner@smtp.ru"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "        l = ['Binary file %s has changed\\n' % fn1]\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1124852326.0, 25200],
+  "line": "        l = ['Binary file %s has changed\\n' % fn]\n",
+  "node": "22571b8d35d3fce8c7d596579da586948ec928da",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "    elif not a:\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1124852326.0, 25200],
+  "line": "    elif a == None:\n",
+  "node": "22571b8d35d3fce8c7d596579da586948ec928da",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "    if a == None:\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "        b = splitnewlines(b)\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        b = splitnewlines(b, keepends=True)\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        b = b.splitlines(1)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "        if a is None:\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "            l1 = '--- /dev/null%s' % datetag(epoch)\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "            l1 = '--- /dev/null%s' % datetag(epoch, False)\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "            l1 = '--- /dev/null%s' % datetag(epoch)\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "            l1 = \"--- %s\\t%s\\n\" % (\"/dev/null\", epoch)\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "        else:\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "            l1 = \"--- %s%s%s\" % (aprefix, fn1, datetag(ad, fn1))\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        l2 = \"+++ %s%s\" % (bprefix + fn2, datetag(bd, fn2))\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "            l1 = \"--- %s%s\" % (\"a/\" + fn1, datetag(ad, fn1))\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "        l2 = \"+++ %s%s\" % (\"b/\" + fn2, datetag(bd, fn2))\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "            l1 = \"--- %s%s\" % (\"a/\" + fn1, datetag(ad))\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "        l2 = \"+++ %s%s\" % (\"b/\" + fn2, datetag(bd))\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "            l1 = \"--- %s%s\" % (\"a/\" + fn, datetag(ad))\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "        l2 = \"+++ %s%s\" % (\"b/\" + fn, datetag(bd))\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "            l1 = \"--- %s\\t%s\\n\" % (\"a/\" + fn, ad)\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1128450108.0, 25200],
+  "line": "        l1 = \"--- %s\\t%s\\n\" % (\"/dev/null\", epoch)\n",
+  "node": "a0fcfbbf52bb411ca0c7c42d0256b12dfbb55432",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l1 = \"--- %s\\t%s\\n\" % (\"/dev/null\", ad)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l2 = \"+++ %s\\t%s\\n\" % (\"b/\" + fn, bd)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l3 = \"@@ -0,0 +1,%d @@\\n\" % len(b)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l = [l1, l2, l3] + [\"+\" + e for e in b]\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "    elif not b:\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "    elif b == None:\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "        a = splitnewlines(a)\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        a = splitnewlines(a, keepends=True)\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        a = a.splitlines(1)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        l1 = \"--- %s%s%s\" % (aprefix, fn1, datetag(ad, fn1))\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "        l1 = \"--- %s%s\" % (\"a/\" + fn1, datetag(ad, fn1))\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "        l1 = \"--- %s%s\" % (\"a/\" + fn1, datetag(ad))\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "        l1 = \"--- %s%s\" % (\"a/\" + fn, datetag(ad))\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l1 = \"--- %s\\t%s\\n\" % (\"a/\" + fn, ad)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "        if b is None:\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "            l2 = '+++ /dev/null%s' % datetag(epoch)\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1182549964.0, 10800],
+  "line": "            l2 = '+++ /dev/null%s' % datetag(epoch, False)\n",
+  "node": "826659bd8053318e2871a8ed3d3c8a2ab18a5179",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "            l2 = '+++ /dev/null%s' % datetag(epoch)\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "            l2 = \"+++ %s\\t%s\\n\" % (\"/dev/null\", epoch)\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "        else:\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "            l2 = \"+++ %s%s%s\" % (bprefix, fn2, datetag(bd, fn2))\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "            l2 = \"+++ %s%s\" % (\"b/\" + fn2, datetag(bd, fn2))\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "            l2 = \"+++ %s%s\" % (\"b/\" + fn2, datetag(bd))\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "            l2 = \"+++ %s%s\" % (\"b/\" + fn, datetag(bd))\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1140009736.0, -3600],
+  "line": "            l2 = \"+++ %s\\t%s\\n\" % (\"b/\" + fn, bd)\n",
+  "node": "fde8fb2cbeded49d0021287fda8eab1de734d308",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1128450108.0, 25200],
+  "line": "        l2 = \"+++ %s\\t%s\\n\" % (\"/dev/null\", epoch)\n",
+  "node": "a0fcfbbf52bb411ca0c7c42d0256b12dfbb55432",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l2 = \"+++ %s\\t%s\\n\" % (\"/dev/null\", bd)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l3 = \"@@ -1,%d +0,0 @@\\n\" % len(a)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l = [l1, l2, l3] + [\"-\" + e for e in a]\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "    else:\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "        al = splitnewlines(a)\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147293552.0, 25200],
+  "line": "        bl = splitnewlines(b)\n",
+  "node": "35fb62a3a673d5322f6274a44ba6456e5e4b3b37",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        al = splitnewlines(a, keepends=True)\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1147282314.0, 25200],
+  "line": "        bl = splitnewlines(b, keepends=True)\n",
+  "node": "b914f0557832e64529e62dcbb8a66869504f73c3",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        al = a.splitlines(1)\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        bl = b.splitlines(1)\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "        l = list(_unidiff(a, b, al, bl, opts=opts))\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "        l = list(bunidiff(a, b, al, bl, \"a/\" + fn1, \"b/\" + fn2, opts=opts))\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        l = list(bunidiff(a, b, al, bl, \"a/\" + fn, \"b/\" + fn, opts=opts))\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        l = list(bunidiff(a, b, al, bl, \"a/\" + fn, \"b/\" + fn,\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "                          showfunc=showfunc, ignorews=ignorews,\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "                          ignorewsamount=ignorewsamount,\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "                          ignoreblanklines=ignoreblanklines))\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                          showfunc=showfunc, ignorews=ignorews))\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        a = a.splitlines(1)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        b = b.splitlines(1)\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118163185.0, 28800],
+  "line": "        l = list(difflib.unified_diff(a, b, \"a/\" + fn, \"b/\" + fn))\n",
+  "node": "467cea2bf2d8e06d05e5e33801e3bdf4004a4a05",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "        if not l:\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "            return \"\"\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1118256430.0, 28800],
+  "line": "        if not l: return \"\"\n",
+  "node": "777e388c06d61ef26f7f60ab3784d17bbf0d164b",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        l.insert(0, \"--- %s%s%s\" % (aprefix, fn1, datetag(ad, fn1)))\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1415863754.0, 28800],
+  "line": "        l.insert(1, \"+++ %s%s%s\" % (bprefix, fn2, datetag(bd, fn2)))\n",
+  "node": "1f510efcd5f3fcc2c6714f92c00467dee007ca1c",
+  "user": "Siddharth Agarwal <sid0@fb.com>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "        l.insert(0, \"--- a/%s%s\" % (fn1, datetag(ad, fn1)))\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1333633147.0, -7200],
+  "line": "        l.insert(1, \"+++ b/%s%s\" % (fn2, datetag(bd, fn2)))\n",
+  "node": "16b75661828e2fac2eac8eabb3a64f761d7738c6",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "        l.insert(0, \"--- a/%s%s\" % (fn1, datetag(ad)))\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "        l.insert(1, \"+++ b/%s%s\" % (fn2, datetag(bd)))\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1118163185.0, 28800],
+  "line": "        # difflib uses a space, rather than a tab\n",
+  "node": "467cea2bf2d8e06d05e5e33801e3bdf4004a4a05",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "        l[0] = \"%s%s\" % (l[0][:-2], datetag(ad))\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1156896522.0, 25200],
+  "line": "        l[1] = \"%s%s\" % (l[1][:-2], datetag(bd))\n",
+  "node": "d838bfac668d32040237905cb03d36c8cfeef333",
+  "user": "Brendan Cully <brendan@kublai.com>"
+ },
+ {
+  "date": [1131928219.0, -7200],
+  "line": "        l[0] = \"%s\\t%s\\n\" % (l[0][:-2], ad)\n",
+  "node": "8ca9f5b1725743e981cb66a6ae685a52ea4e58f1",
+  "user": "twaldmann@thinkmo.de"
+ },
+ {
+  "date": [1131928219.0, -7200],
+  "line": "        l[1] = \"%s\\t%s\\n\" % (l[1][:-2], bd)\n",
+  "node": "8ca9f5b1725743e981cb66a6ae685a52ea4e58f1",
+  "user": "twaldmann@thinkmo.de"
+ },
+ {
+  "date": [1118163185.0, 28800],
+  "line": "        l[0] = l[0][:-2] + \"\\t\" + ad + \"\\n\"\n",
+  "node": "467cea2bf2d8e06d05e5e33801e3bdf4004a4a05",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118163185.0, 28800],
+  "line": "        l[1] = l[1][:-2] + \"\\t\" + bd + \"\\n\"\n",
+  "node": "467cea2bf2d8e06d05e5e33801e3bdf4004a4a05",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118083869.0, 28800],
+  "line": "        l = list(difflib.unified_diff(a, b, \"a/\" + fn, \"b/\" + fn, ad, bd))\n",
+  "node": "4c1d7072d5cdf83feee4a4083b33b3c2346f476f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    a = a.splitlines(1)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    b = b.splitlines(1)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "    l = list(difflib.unified_diff(a, b, \"a/\" + fn, \"b/\" + fn, ad, bd))\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115511050.0, 28800],
+  "line": "    l = list(difflib.unified_diff(a, b, fn, fn))\n",
+  "node": "9197c26a414becaaf2fec9d2097df99f16441907",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    l = difflib.unified_diff(a, b, fn, fn)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117141348.0, 28800],
+  "line": "\n",
+  "node": "e6c621a825f2c234cc25266233289701152a58a8",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117141348.0, 28800],
+  "line": "    for ln in xrange(len(l)):\n",
+  "node": "e6c621a825f2c234cc25266233289701152a58a8",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117141348.0, 28800],
+  "line": "        if l[ln][-1] != '\\n':\n",
+  "node": "e6c621a825f2c234cc25266233289701152a58a8",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117141348.0, 28800],
+  "line": "            l[ln] += \"\\n\\ No newline at end of file\\n\"\n",
+  "node": "e6c621a825f2c234cc25266233289701152a58a8",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117141348.0, 28800],
+  "line": "\n",
+  "node": "e6c621a825f2c234cc25266233289701152a58a8",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1119037043.0, -3600],
+  "line": "    if r:\n",
+  "node": "8f8bb77d560e70bcc95577e4dfa877df18d876ab",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1224674092.0, -7200],
+  "line": "        l.insert(0, diffline(r, fn1, fn2, opts))\n",
+  "node": "ca5ac40949dc84abfe3420037a6c6699114a1ed9",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1119037043.0, -3600],
+  "line": "        l.insert(0, \"diff %s %s\\n\" %\n",
+  "node": "8f8bb77d560e70bcc95577e4dfa877df18d876ab",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1193944679.0, 25200],
+  "line": "                    (' '.join([\"-r %s\" % rev for rev in r]), fn1))\n",
+  "node": "e5eedd74e70f7f02621dc8dcff52cb35ce9a08d2",
+  "user": "Dustin Sallings <dustin@spy.net>"
+ },
+ {
+  "date": [1119037043.0, -3600],
+  "line": "                    (' '.join([\"-r %s\" % rev for rev in r]), fn))\n",
+  "node": "8f8bb77d560e70bcc95577e4dfa877df18d876ab",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1119037043.0, -3600],
+  "line": "\n",
+  "node": "8f8bb77d560e70bcc95577e4dfa877df18d876ab",
+  "user": "Thomas Arendsen Hein <thomas@intevation.de>"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    return \"\".join(l)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "def textdiff(a, b):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    return diff(a.splitlines(1), b.splitlines(1))\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "def sortdiff(a, b):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    la = lb = 0\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    lena = len(a)\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    lenb = len(b)\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1120070555.0, 28800],
+  "line": "\n",
+  "node": "03f27b1381f9e41aaed50e5e2678a9a0b26988b9",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    \n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    lena = len(a)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    lenb = len(b)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    while 1:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        am, bm, = la, lb\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        # walk over matching lines\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118703213.0, 28800],
+  "line": "        while lb < lenb and la < lena and a[la] == b[lb] :\n",
+  "node": "235443668bea3d8dc5521b89d7b3afbdb143abc8",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        while lb < lenb and la < lenb and a[la] == b[lb] :\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        if la >= len(a) or lb >= len(b): break\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        if b[lb] < a[la]:\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "            si = lb\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "            while lb < len(b) and b[lb] < a[la] : lb += 1\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "            yield \"insert\", la, la, si, lb\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        elif a[la] < b[lb]:\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "            si = la\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "            while la < len(a) and a[la] < b[lb]: la += 1\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "            yield \"delete\", si, la, lb, lb\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        else:\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        am, bm, = la, lb\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        while lb < lenb and la < len and a[la] == b[lb] :\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        if la >= len(a) or lb >= len(b): break\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        if b[lb] < a[la]:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            si = lb\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            while lb < len(b) and b[lb] < a[la] : lb += 1\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            yield \"insert\", la, la, si, lb\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        elif a[la] < b[lb]:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            si = la\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            while la < len(a) and a[la] < b[lb]: la += 1\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            yield \"delete\", si, la, lb, lb\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        else:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            la += 1\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "            lb += 1\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        if la > am:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "            yield (am, bm, la - am) # return a match\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "    if lb < len(b):\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        yield \"insert\", la, la, lb, len(b)\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        # skip mismatched lines from b\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118879360.0, 28800],
+  "line": "        while la < lena and lb < lenb and b[lb] < a[la]:\n",
+  "node": "88268aa2b8d231e7510f4a14fc6ea592929a80a7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        while lb < lenb and b[lb] < a[la]:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "            lb += 1\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        if lb >= lenb:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "            break\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1120070555.0, 28800],
+  "line": "\n",
+  "node": "03f27b1381f9e41aaed50e5e2678a9a0b26988b9",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        \n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        # skip mismatched lines from a\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118879360.0, 28800],
+  "line": "        while la < lena and lb < lenb and b[lb] > a[la]:\n",
+  "node": "88268aa2b8d231e7510f4a14fc6ea592929a80a7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        while la < lena and b[lb] > a[la]:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "            la += 1\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        if la >= lena:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "            break\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1120070555.0, 28800],
+  "line": "\n",
+  "node": "03f27b1381f9e41aaed50e5e2678a9a0b26988b9",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        \n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    yield (lena, lenb, 0)\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "    if la < len(a):\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        yield \"delete\", la, len(a), lb, lb\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        if la>am: yield (am, bm, la-am)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        while lb < lenb and b[lb] < a[la]: lb += 1\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        if lb>=lenb: break\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        while la < lena and b[lb] > a[la]: la += 1\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        if la>=lena: break\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    yield (lena, lenb, 0)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "    if lb < len(b):\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "        yield \"insert\", la, la, lb, len(b)\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    si = lb\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    while lb < len(b):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        lb += 1\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        yield \"insert\", la, la, si, lb\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "    if la < len(a):\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "        yield \"delete\", la, len(a), lb, lb\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    si = la\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    while la < len(a):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        la += 1\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        yield \"delete\", si, la, lb, lb\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "def diff(a, b, sorted=0):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    if not a:\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        s = \"\".join(b)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        return s and (struct.pack(\">lll\", 0, 0, len(s)) + s)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    if not a:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        s = \"\".join(b)\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        return s and (struct.pack(\">lll\", 0, 0, len(s)) + s)\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    bin = []\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    p = [0]\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    for i in a: p.append(p[-1] + len(i))\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    if sorted:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600312.0, 28800],
+  "line": "        try:\n",
+  "node": "b18ce742566a5c13a140b1177c39b577bee778ff",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600312.0, 28800],
+  "line": "            d = sortdiff(a, b)\n",
+  "node": "b18ce742566a5c13a140b1177c39b577bee778ff",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600312.0, 28800],
+  "line": "        except:\n",
+  "node": "b18ce742566a5c13a140b1177c39b577bee778ff",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600312.0, 28800],
+  "line": "            print a, b\n",
+  "node": "b18ce742566a5c13a140b1177c39b577bee778ff",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600312.0, 28800],
+  "line": "            raise\n",
+  "node": "b18ce742566a5c13a140b1177c39b577bee778ff",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        d = sortdiff(a, b)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    else:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        d = difflib.SequenceMatcher(None, a, b).get_matching_blocks()\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    la = 0\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    lb = 0\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    for am, bm, size in d:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        s = \"\".join(b[lb:bm])\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        if am > la or s:\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "            bin.append(struct.pack(\">lll\", p[la], p[am], len(s)) + s)\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        la = am + size\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "        lb = bm + size\n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1120070555.0, 28800],
+  "line": "\n",
+  "node": "03f27b1381f9e41aaed50e5e2678a9a0b26988b9",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118699028.0, 28800],
+  "line": "    \n",
+  "node": "ad87e19854a641b87c79a84d6b3a071475c4c4fb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        d = difflib.SequenceMatcher(None, a, b).get_opcodes()\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "    for o, m, n, s, t in d:\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        if o == 'equal': continue\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        s = \"\".join(b[s:t])\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "        bin.append(struct.pack(\">lll\", p[m], p[n], len(s)) + s)\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1118600407.0, 28800],
+  "line": "\n",
+  "node": "2819f63b16bfbb72125a18d2ce8a4c211753ef8a",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        d = difflib.SequenceMatcher(None, a, b).get_matching_blocks()\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    la = 0\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    lb = 0\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    for am, bm, size in d:\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        s = \"\".join(b[lb:bm])\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        if am > la or s:\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "            bin.append(struct.pack(\">lll\", p[la], p[am], len(s)) + s)\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        la = am + size\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "        lb = bm + size\n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1117251514.0, 28800],
+  "line": "    \n",
+  "node": "697f05bfe976294479e28531fdece9a379d7e7e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        d = difflib.SequenceMatcher(None, a, b).get_opcodes()\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    for o, m, n, s, t in d:\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        if o == 'equal': continue\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        s = \"\".join(b[s:t])\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        bin.append(struct.pack(\">lll\", p[m], p[n], len(s)) + s)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    return \"\".join(bin)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "# creates a headerless unified diff\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# somewhat self contained replacement for difflib.unified_diff\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# t1 and t2 are the text to be diffed\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# l1 and l2 are the text broken up into lines\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "def _unidiff(t1, t2, l1, l2, opts=defaultopts):\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# header1 and header2 are the filenames for the diff output\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "def bunidiff(t1, t2, l1, l2, header1, header2, opts=defaultopts):\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# context is the number of context lines\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# showfunc enables diff -p output\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "# ignorews ignores all whitespace changes in the diff\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "# ignorewsamount ignores changes in the amount of whitespace\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "# ignoreblanklines ignores changes whose lines are all blank\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "def bunidiff(t1, t2, l1, l2, header1, header2, context=3, showfunc=False,\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "             ignorews=False, ignorewsamount=False, ignoreblanklines=False):\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "             ignorews=False):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    def contextend(l, len):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        ret = l + opts.context\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        ret = l + context\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if ret > len:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            ret = len\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        return ret\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    def contextstart(l):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        ret = l - opts.context\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        ret = l - context\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if ret < 0:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            return 0\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        return ret\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "    lastfunc = [0, '']\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "    def yieldhunk(hunk):\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    def yieldhunk(hunk, header):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if header:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            for x in header:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                yield x\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        (astart, a2, bstart, b2, delta) = hunk\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        aend = contextend(a2, len(l1))\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        alen = aend - astart\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        blen = b2 - bstart + aend - a2\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        func = \"\"\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        if opts.showfunc:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if showfunc:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            lastpos, func = lastfunc\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            # walk backwards from the start of the context up to the start of\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            # the previous hunk context until we find a line starting with an\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            # alphanumeric char.\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            for i in xrange(astart - 1, lastpos - 1, -1):\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "                if l1[i][0].isalnum():\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "                    func = ' ' + l1[i].rstrip()[:40]\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "                    lastfunc[1] = func\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            # walk backwards from the start of the context\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            # to find a line starting with an alphanumeric char.\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1227801654.0, -3600],
+  "line": "            for x in xrange(astart - 1, -1, -1):\n",
+  "node": "07faba78cf5a6f12600b01f66461b2ac403ac50f",
+  "user": "Dirkjan Ochtman <dirkjan@ochtman.nl>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            for x in xrange(astart, -1, -1):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                t = l1[x].rstrip()\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                if funcre.match(t):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                    func = ' ' + t[:40]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                    break\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            # by recording this hunk's starting point as the next place to\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            # start looking for function lines, we avoid reading any line in\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            # the file more than once.\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1316473083.0, 25200],
+  "line": "            lastfunc[0] = astart\n",
+  "node": "16dc9a32ca04510e5796fece99393fdfc96a5932",
+  "user": "Brodie Rao <brodie@bitheap.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "        # zero-length hunk ranges report their start line as one less\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "        if alen:\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "            astart += 1\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "        if blen:\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "            bstart += 1\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "        yield \"@@ -%d,%d +%d,%d @@%s\\n\" % (astart, alen,\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1320886559.0, 28800],
+  "line": "                                           bstart, blen, func)\n",
+  "node": "2b1ec74c961fcff3e003fb57275d15a3528f97ca",
+  "user": "Nicolas Venegas <nvenegas@atlassian.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        yield \"@@ -%d,%d +%d,%d @@%s\\n\" % (astart + 1, alen,\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                                           bstart + 1, blen, func)\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        for x in delta:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            yield x\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        for x in xrange(a2, aend):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            yield ' ' + l1[x]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "    header = [\"--- %s\\t\\n\" % header1, \"+++ %s\\t\\n\" % header2]\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    header = [ \"--- %s\\t\\n\" % header1, \"+++ %s\\t\\n\" % header2 ]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    if opts.showfunc:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    if showfunc:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        funcre = re.compile('\\w')\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    if opts.ignorewsamount:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "    if ignorewsamount:\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "        wsamountre = re.compile('[ \\t]+')\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "        wsappendedre = re.compile(' \\n')\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    if opts.ignoreblanklines:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "    if ignoreblanklines:\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "        wsblanklinesre = re.compile('\\n')\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "    if opts.ignorews:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    if ignorews:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        wsre = re.compile('[ \\t]')\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    # bdiff.blocks gives us the matching sequences in the files.  The loop\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    # below finds the spaces between those matching sequences and translates\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    # them into diff output.\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    #\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "    if opts.ignorews or opts.ignorewsamount:\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "        t1 = wsclean(opts, t1, False)\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "        t2 = wsclean(opts, t2, False)\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    diff = bdiff.blocks(t1, t2)\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    hunk = None\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "    ignoredlines = 0\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "    for s, stype in allblocks(t1, t2, opts, l1, l2):\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "        a1, a2, b1, b2 = s\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "        if stype != '!':\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "            if stype == '~':\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "                # The diff context lines are based on t1 content. When\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "                # blank lines are ignored, the new lines offsets must\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "                # be adjusted as if equivalent blocks ('~') had the\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "                # same sizes on both sides.\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "                ignoredlines += (b2 - b1) - (a2 - a1)\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1321614064.0, -3600],
+  "line": "            continue\n",
+  "node": "e6519c6284542eee8664b6ebf9c0350630c1b91b",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "    for s in diffblocks(t1, t2, opts, l1, l2):\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1243371592.0, -7200],
+  "line": "    for i, s1 in enumerate(diff):\n",
+  "node": "9e055cfdd620e86121c241f52a8e39d0880021b8",
+  "user": "Martin Geisler <mg@lazybytes.net>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    for i in xrange(len(diff)):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        # The first match is special.\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        # we've either found a match starting at line 0 or a match later\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        # in the file.  If it starts later, old and new below will both be\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        # empty and we'll continue to the next match.\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if i > 0:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "            s = diff[i - 1]\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            s = diff[i-1]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        else:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            s = [0, 0, 0, 0]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        delta = []\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        s1 = diff[i]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1321613618.0, -3600],
+  "line": "        a1, a2, b1, b2 = s\n",
+  "node": "935bf2e7dbc5404881ba5714ceb8465584be9bb5",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        a1 = s[1]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        a2 = s1[0]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        b1 = s[3]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        b2 = s1[2]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        old = l1[a1:a2]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        new = l2[b1:b2]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        # bdiff sometimes gives huge matches past eof, this check eats them,\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        # and deals with the special first match case described above\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if not old and not new:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            continue\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1257960702.0, -3600],
+  "line": "        if opts.ignoreblanklines:\n",
+  "node": "4fe9ca5196372d5c9d7d3bf14dd13aecb2e71608",
+  "user": "Patrick Mezard <pmezard@gmail.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "        if opts.ignorews or opts.ignorewsamount or opts.ignoreblanklines:\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1184435087.0, 18000],
+  "line": "            if wsclean(opts, \"\".join(old)) == wsclean(opts, \"\".join(new)):\n",
+  "node": "372d93f03d3aae749c5d523d8c33ce36581b8887",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        if opts.ignoreblanklines:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "        if ignoreblanklines:\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            wsold = wsblanklinesre.sub('', \"\".join(old))\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            wsnew = wsblanklinesre.sub('', \"\".join(new))\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            if wsold == wsnew:\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "                continue\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        if opts.ignorewsamount:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "        if ignorewsamount:\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            wsold = wsamountre.sub(' ', \"\".join(old))\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            wsold = wsappendedre.sub('\\n', wsold)\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            wsnew = wsamountre.sub(' ', \"\".join(new))\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            wsnew = wsappendedre.sub('\\n', wsnew)\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "            if wsold == wsnew:\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "                continue\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1151586985.0, -7200],
+  "line": "\n",
+  "node": "a20a1bb0c396937a5ab131bd9219bd6d294ba01b",
+  "user": "Haakon Riiser <haakon.riiser@fys.uio.no>"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "        if opts.ignorews:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if ignorews:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            wsold = wsre.sub('', \"\".join(old))\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            wsnew = wsre.sub('', \"\".join(new))\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            if wsold == wsnew:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                continue\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "        b1 -= ignoredlines\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1328559470.0, -3600],
+  "line": "        b2 -= ignoredlines\n",
+  "node": "2e8f4b82c551014a5895b3dfc5858f2341bd7f41",
+  "user": "Patrick Mezard <patrick@mezard.eu>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        astart = contextstart(a1)\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        bstart = contextstart(b1)\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        prev = None\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if hunk:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            # join with the previous hunk if it falls inside the context\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1155424407.0, 25200],
+  "line": "            if astart < hunk[1] + opts.context + 1:\n",
+  "node": "4ec58b157265754d670ae29c168c67f7f83a7fb0",
+  "user": "Vadim Gelfer <vadim.gelfer@gmail.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            if astart < hunk[1] + context + 1:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                prev = hunk\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                astart = hunk[1]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                bstart = hunk[3]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            else:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "                for x in yieldhunk(hunk):\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                for x in yieldhunk(hunk, header):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                    yield x\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                # we only want to yield the header if the files differ, and\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                # we only want to yield it once.\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "                header = None\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        if prev:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            # we've joined the previous hunk, record the new ending points.\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            hunk[1] = a2\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            hunk[3] = b2\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            delta = hunk[4]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        else:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            # create a new hunk\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "            hunk = [astart, a2, bstart, b2, delta]\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            hunk = [ astart, a2, bstart, b2, delta ]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "        delta[len(delta):] = [' ' + x for x in l1[astart:a1]]\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "        delta[len(delta):] = ['-' + x for x in old]\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1264399527.0, 21600],
+  "line": "        delta[len(delta):] = ['+' + x for x in new]\n",
+  "node": "08a0f04b56bd3061d2fe5e639be0d00b6da7e71b",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        delta[len(delta):] = [ ' ' + x for x in l1[astart:a1] ]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        delta[len(delta):] = [ '-' + x for x in old ]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        delta[len(delta):] = [ '+' + x for x in new ]\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "    if hunk:\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1268155917.0, -3600],
+  "line": "        for x in yieldhunk(hunk):\n",
+  "node": "d0050f36e688b22c3d2c13d1cceb737150a8a7db",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "        for x in yieldhunk(hunk, header):\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "            yield x\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1138068130.0, -46800],
+  "line": "\n",
+  "node": "3b1b44b917f47fc44ac1e45995d9fa02a4db5e79",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "def b85diff(to, tn):\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    '''print base85-encoded binary diff'''\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    def gitindex(text):\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        if not text:\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "            return hex(nullid)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        l = len(text)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        s = util.sha1('blob %d\\0' % l)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        s.update(text)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        return s.hexdigest()\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    def fmtline(line):\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        l = len(line)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        if l <= 26:\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "            l = chr(ord('A') + l - 1)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        else:\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "            l = chr(l - 26 + ord('a') - 1)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        return '%c%s\\n' % (l, base85.b85encode(line, True))\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    def chunk(text, csize=52):\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        l = len(text)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        i = 0\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        while i < l:\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "            yield text[i:i + csize]\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "            i += csize\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "    if to is None:\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "        to = ''\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "    if tn is None:\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "        tn = ''\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "    if to == tn:\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "        return ''\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    tohash = gitindex(to)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    tnhash = gitindex(tn)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    if tohash == tnhash:\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        return \"\"\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    # TODO: deltas\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "    ret = []\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "    ret.append('GIT binary patch\\n')\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "    ret.append('literal %s\\n' % len(tn))\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    ret = ['index %s..%s\\nGIT binary patch\\nliteral %s\\n' %\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "           (tohash, tnhash, len(tn))]\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    for l in chunk(zlib.compress(tn)):\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "        ret.append(fmtline(l))\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    ret.append('\\n')\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1353021401.0, 28800],
+  "line": "\n",
+  "node": "1e13b118429265dd3a395ffe93e6b6da3290679d",
+  "user": "Guillermo Pérez <bisho@fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "    return ''.join(ret)\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1352239445.0, 28800],
+  "line": "\n",
+  "node": "d587925680d99e044c89d0a5022470ba151f9b93",
+  "user": "Guillermo Pérez <bisho at fb.com>"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "def patchtext(bin):\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "    pos = 0\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "    t = []\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "    while pos < len(bin):\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "        p1, p2, l = struct.unpack(\">lll\", bin[pos:pos + 12])\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "        pos += 12\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "        t.append(bin[pos:pos + l])\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "        pos += l\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "    return \"\".join(t)\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116639749.0, 28800],
+  "line": "\n",
+  "node": "bae6f0328f635e856ceb196d381209dc66e586bb",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# This attempts to apply a series of patches in time proportional to\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# the total size of the patches, rather than patches * len(text). This\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# means rather than shuffling strings around, we shuffle around\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# pointers to fragments with fragment lists.\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "#\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# When the fragment lists get too long, we collapse them. To do this\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# efficiently, we do all our operations inside a buffer created by\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# mmap and simply use memmove. This avoids creating a bunch of large\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "# temporary string buffers.\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "def patches(a, bins):\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    if not bins: return a\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    plens = [len(x) for x in bins]\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    pl = sum(plens)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    bl = len(a) + pl\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    tl = bl + bl + pl # enough for the patches and two working texts\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    b1, b2 = 0, bl\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116318738.0, 28800],
+  "line": "\n",
+  "node": "b942bbe4bb84c667f34a7796415a3e439b5b4577",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116318738.0, 28800],
+  "line": "    if not tl: return a\n",
+  "node": "b942bbe4bb84c667f34a7796415a3e439b5b4577",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116318738.0, 28800],
+  "line": "\n",
+  "node": "b942bbe4bb84c667f34a7796415a3e439b5b4577",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    m = mmap.mmap(devzero.fileno(), tl, mmap.MAP_PRIVATE)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    # load our original text\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    m.write(a)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    frags = [(len(a), b1)]\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    # copy all the patches into our segment so we can memmove from them\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    pos = b2 + bl\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    m.seek(pos)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    for p in bins: m.write(p)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    def pull(dst, src, l): # pull l bytes from src\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        while l:\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            f = src.pop(0)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            if f[0] > l: # do we need to split?\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "                src.insert(0, (f[0] - l, f[1] + l))\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "                dst.append((l, f[1]))\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "                return\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            dst.append(f)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            l -= f[0]\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    def collect(buf, list):\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        start = buf\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        for l, p in list:\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            m.move(buf, p, l)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            buf += l\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        return (buf - start, start)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    for plen in plens:\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        # if our list gets too long, execute it\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        if len(frags) > 128:\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            b2, b1 = b1, b2\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            frags = [collect(b1, frags)]\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        new = []\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        end = pos + plen\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        last = 0\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        while pos < end:\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            p1, p2, l = struct.unpack(\">lll\", m[pos:pos + 12])\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            pull(new, frags, p1 - last) # what didn't change\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            pull([], frags, p2 - p1)    # what got deleted\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            new.append((l, pos + 12))        # what got added\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            pos += l + 12\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "            last = p2\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "        frags = new + frags                    # what was left at the end\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    t = collect(b2, frags)\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "    return m[t[1]:t[1] + t[0]]\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116095234.0, 28800],
+  "line": "\n",
+  "node": "47c9a869adee981f852af88af5d5cba4c7d1e62f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "def patch(a, bin):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1282562884.0, -7200],
+  "line": "    if len(a) == 0:\n",
+  "node": "2315a95ee88759ad2ed250dcbf2fc93be4073688",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1282562884.0, -7200],
+  "line": "        # skip over trivial delta header\n",
+  "node": "2315a95ee88759ad2ed250dcbf2fc93be4073688",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1323984431.0, 21600],
+  "line": "        return util.buffer(bin, 12)\n",
+  "node": "d976b1ef67602c0e2d81a30595d98e13eb4e7da2",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1282562884.0, -7200],
+  "line": "        return buffer(bin, 12)\n",
+  "node": "2315a95ee88759ad2ed250dcbf2fc93be4073688",
+  "user": "Benoit Boissinot <benoit.boissinot@ens-lyon.org>"
+ },
+ {
+  "date": [1128450348.0, 25200],
+  "line": "    return mpatch.patches(a, [bin])\n",
+  "node": "8ee7ce877be2a4d4e525e7f995d9942920b6a319",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1116310113.0, 28800],
+  "line": "    return patches(a, [bin])\n",
+  "node": "4a6ab4d80dc4fe5449e702242402e1fe91fc41e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    last = pos = 0\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    r = []\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116310113.0, 28800],
+  "line": "try:\n",
+  "node": "4a6ab4d80dc4fe5449e702242402e1fe91fc41e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116310113.0, 28800],
+  "line": "    import mpatch\n",
+  "node": "4a6ab4d80dc4fe5449e702242402e1fe91fc41e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116310113.0, 28800],
+  "line": "    patches = mpatch.patches\n",
+  "node": "4a6ab4d80dc4fe5449e702242402e1fe91fc41e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116310113.0, 28800],
+  "line": "except:\n",
+  "node": "4a6ab4d80dc4fe5449e702242402e1fe91fc41e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1116310113.0, 28800],
+  "line": "    pass\n",
+  "node": "4a6ab4d80dc4fe5449e702242402e1fe91fc41e7",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "    c = 0\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    while pos < len(bin):\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        p1, p2, l = struct.unpack(\">lll\", bin[pos:pos + 12])\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        pos += 12\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        r.append(a[last:p1])\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        r.append(bin[pos:pos + l])\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        pos += l\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "        last = p2\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115949295.0, 28800],
+  "line": "        c += 1\n",
+  "node": "b3e2ddff0159d52f30304cd4f80f87170e80e11d",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    r.append(a[last:])\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "    return \"\".join(r)\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1115154970.0, 28800],
+  "line": "\n",
+  "node": "9117c6561b0bd7792fa13b50d28239d51b78e51f",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1119468181.0, 28800],
+  "line": "\n",
+  "node": "3b9e3d3d2810e4ab7394cab0be3ce25aa72ef5e5",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1176765459.0, 10800],
+  "line": "# similar to difflib.SequenceMatcher.get_matching_blocks\n",
+  "node": "99c853a1408c947edf0c31ad6e26ca9f900e30ff",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1176765459.0, 10800],
+  "line": "def get_matching_blocks(a, b):\n",
+  "node": "99c853a1408c947edf0c31ad6e26ca9f900e30ff",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1176765459.0, 10800],
+  "line": "    return [(d[0], d[2], d[1] - d[0]) for d in bdiff.blocks(a, b)]\n",
+  "node": "99c853a1408c947edf0c31ad6e26ca9f900e30ff",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1176765459.0, 10800],
+  "line": "\n",
+  "node": "99c853a1408c947edf0c31ad6e26ca9f900e30ff",
+  "user": "Alexis S. L. Carvalho <alexis@cecm.usp.br>"
+ },
+ {
+  "date": [1191449847.0, 18000],
+  "line": "def trivialdiffheader(length):\n",
+  "node": "7530334bf301d743df9838af503bbc694271f563",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1452567607.0, 18000],
+  "line": "    return struct.pack(\">lll\", 0, 0, length) if length else ''\n",
+  "node": "7a678a12a5cfab1c0d24ce1f47b211ededa7d500",
+  "user": "Mike Hommey <mh@glandium.org>"
+ },
+ {
+  "date": [1191449847.0, 18000],
+  "line": "    return struct.pack(\">lll\", 0, 0, length)\n",
+  "node": "7530334bf301d743df9838af503bbc694271f563",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1191449847.0, 18000],
+  "line": "\n",
+  "node": "7530334bf301d743df9838af503bbc694271f563",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1421876109.0, 18000],
+  "line": "def replacediffheader(oldlen, newlen):\n",
+  "node": "a5a06c9c74070ba84ddec1f1f5e9d3e7bbd28e19",
+  "user": "Mike Edgar <adgar@google.com>"
+ },
+ {
+  "date": [1421876109.0, 18000],
+  "line": "    return struct.pack(\">lll\", 0, oldlen, newlen)\n",
+  "node": "a5a06c9c74070ba84ddec1f1f5e9d3e7bbd28e19",
+  "user": "Mike Edgar <adgar@google.com>"
+ },
+ {
+  "date": [1421876109.0, 18000],
+  "line": "\n",
+  "node": "a5a06c9c74070ba84ddec1f1f5e9d3e7bbd28e19",
+  "user": "Mike Edgar <adgar@google.com>"
+ },
+ {
+  "date": [1128450348.0, 25200],
+  "line": "patches = mpatch.patches\n",
+  "node": "8ee7ce877be2a4d4e525e7f995d9942920b6a319",
+  "user": "Matt Mackall <mpm@selenic.com>"
+ },
+ {
+  "date": [1144183124.0, 14400],
+  "line": "patchedsize = mpatch.patchedsize\n",
+  "node": "441ea218414e83dd0d91e2bf8438d796828f89c1",
+  "user": "mason@suse.com"
+ },
+ {
+  "date": [1119468181.0, 28800],
+  "line": "textdiff = bdiff.bdiff\n",
+  "node": "3b9e3d3d2810e4ab7394cab0be3ce25aa72ef5e5",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1119468181.0, 28800],
+  "line": "\n",
+  "node": "3b9e3d3d2810e4ab7394cab0be3ce25aa72ef5e5",
+  "user": "mpm@selenic.com"
+ },
+ {
+  "date": [1119468181.0, 28800],
+  "line": "\n",
+  "node": "3b9e3d3d2810e4ab7394cab0be3ce25aa72ef5e5",
+  "user": "mpm@selenic.com"
+ }
+]
