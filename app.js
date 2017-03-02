@@ -310,8 +310,10 @@
         }
       }
       if (needUpdate) {
-        return this.setState(newState);
+        this.setState(newState);
       }
+      e.preventDefault();
+      return e.stopPropagation();
     };
 
     App.prototype.handleAutoCommitChange = function(e) {
@@ -343,7 +345,7 @@
                 return linelogBuffer = arguments[0];
               };
             })(),
-            lineno: 199
+            lineno: 201
           }));
           getText("assets/examples/" + name + ".alllines.json", __iced_deferrals.defer({
             assign_fn: (function() {
@@ -351,7 +353,7 @@
                 return allLines = arguments[0];
               };
             })(),
-            lineno: 200
+            lineno: 202
           }));
           __iced_deferrals._fulfill();
         });

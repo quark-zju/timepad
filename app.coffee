@@ -187,6 +187,8 @@ class App extends React.Component
         break
     if needUpdate
       @setState newState
+    e.preventDefault()
+    e.stopPropagation()
 
   handleAutoCommitChange: (e) ->
     value = e.target.checked
