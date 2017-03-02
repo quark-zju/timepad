@@ -93,7 +93,7 @@ class App extends React.Component
       @linelog.annotate(rev)
       @lastAnnotatedResult = @linelog.getAnnotateResult()
       @lastAnnotatedRev = rev
-    return @lastAnnotatedResult 
+    return @lastAnnotatedResult
 
   commit: (content) ->
     a = @state.content
@@ -138,8 +138,35 @@ class App extends React.Component
       rev = null
     @setState showRev: rev
 
-  handleRevisionBarClick: (rev, e) ->
+  handleRevisionBarMouseMove: (xs, e) ->
+    if e.buttons == 1
+      if @y?
+        e.nativeEvent.offsetY = @y
+      @handleRevisionBarClick(xs, e)
+
+  handleRevisionBarClick: (xs, e) ->
+    # find rev
+    rev = null
+    if e.target.tagName == 'SPAN'
+      rev = e.target.dataset.rev
+    else
+      minDelta = 1e100
+      width = xs[xs.length - 1][1] + 1
+      curPos = ((e.nativeEvent.offsetX - 1) / 0.98) * width / e.target.clientWidth # see getLeftCss
+      for revpos in xs
+        [tRev, pos, date, pub] = revpos
+        d = Math.abs(curPos - pos)
+        if d < minDelta
+          rev = tRev
+          minDelta = d
+
+    if not rev?
+      return
+    else
+      rev = parseInt(rev)
+
     newState = {}
+    @y = e.nativeEvent.offsetY
     if e.nativeEvent.offsetY <= e.target.clientHeight / 2
       # set startRev
       newState.startRev = rev
@@ -153,7 +180,14 @@ class App extends React.Component
       newState.showRev = rev
     if newState.showRev == @linelog.getMaxRev()
       newState.showRev = null # so showRev points to new revisions
-    @setState newState
+
+    needUpdate = false
+    for k, v of newState
+      if @state[k] != v
+        needUpdate = true
+        break
+    if needUpdate
+      @setState newState
 
   handleAutoCommitChange: (e) ->
     value = e.target.checked
@@ -163,7 +197,7 @@ class App extends React.Component
 
   handleLoadExample: (e) ->
     name = 'mdiff.py'
-    await 
+    await
       getBinary "assets/examples/#{name}.linelog.bin", defer linelogBuffer
       getText "assets/examples/#{name}.alllines.json", defer allLines
 
@@ -306,12 +340,12 @@ class App extends React.Component
       lastRev = rev
 
     width = lastPos + 1
-    getLeftCss = (pos) -> "calc(#{pos * 98.0 / width}% - 2px)"
+    getLeftCss = (pos) -> "calc(#{pos * 98.0 / width}% + 1px)"
 
     showRev = @state.showRev or @linelog.getMaxRev()
     startRev = @state.startRev or showRev
 
-    div className: 'rev-selector',
+    div className: 'rev-selector', onMouseDown: @handleRevisionBarClick.bind(@, xs), onMouseMove: @handleRevisionBarMouseMove.bind(@, xs),
       xs.map (revpos) =>
         [rev, pos, date, pub] = revpos
         m = moment(timeMap[rev])
@@ -319,7 +353,7 @@ class App extends React.Component
                   "#{pub['node'][0..7]} by #{pub['user']} at #{m.format('MMM Do YY')}"
                 else
                   "Local change #{m.fromNow()}"
-        span key: rev, className: "rev-dot #{pub and 'public'}", style: {left: getLeftCss(pos)}, title: title, onClick: @handleRevisionBarClick.bind(@, rev)
+        span key: rev, className: "rev-dot #{pub and 'public'}", 'data-rev': rev, style: {left: getLeftCss(pos)}, title: title
       span className: "rev-left-slider #{@state.startRev or 'follow'}", style: {left: getLeftCss(posMap[startRev])}
       span className: "rev-right-slider #{@state.showRev or 'follow'}", style: {left: getLeftCss(posMap[showRev])}
 

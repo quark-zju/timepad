@@ -252,9 +252,41 @@
       });
     };
 
-    App.prototype.handleRevisionBarClick = function(rev, e) {
-      var newState;
+    App.prototype.handleRevisionBarMouseMove = function(xs, e) {
+      if (e.buttons === 1) {
+        if (this.y != null) {
+          e.nativeEvent.offsetY = this.y;
+        }
+        return this.handleRevisionBarClick(xs, e);
+      }
+    };
+
+    App.prototype.handleRevisionBarClick = function(xs, e) {
+      var curPos, d, date, k, minDelta, needUpdate, newState, pos, pub, rev, revpos, tRev, v, width, _i, _len;
+      rev = null;
+      if (e.target.tagName === 'SPAN') {
+        rev = e.target.dataset.rev;
+      } else {
+        minDelta = 1e100;
+        width = xs[xs.length - 1][1] + 1;
+        curPos = ((e.nativeEvent.offsetX - 1) / 0.98) * width / e.target.clientWidth;
+        for (_i = 0, _len = xs.length; _i < _len; _i++) {
+          revpos = xs[_i];
+          tRev = revpos[0], pos = revpos[1], date = revpos[2], pub = revpos[3];
+          d = Math.abs(curPos - pos);
+          if (d < minDelta) {
+            rev = tRev;
+            minDelta = d;
+          }
+        }
+      }
+      if (rev == null) {
+        return;
+      } else {
+        rev = parseInt(rev);
+      }
       newState = {};
+      this.y = e.nativeEvent.offsetY;
       if (e.nativeEvent.offsetY <= e.target.clientHeight / 2) {
         newState.startRev = rev;
         if (rev >= this.state.showRev && this.state.showRev !== null) {
@@ -270,7 +302,17 @@
       if (newState.showRev === this.linelog.getMaxRev()) {
         newState.showRev = null;
       }
-      return this.setState(newState);
+      needUpdate = false;
+      for (k in newState) {
+        v = newState[k];
+        if (this.state[k] !== v) {
+          needUpdate = true;
+          break;
+        }
+      }
+      if (needUpdate) {
+        return this.setState(newState);
+      }
     };
 
     App.prototype.handleAutoCommitChange = function(e) {
@@ -302,7 +344,7 @@
                 return linelogBuffer = arguments[0];
               };
             })(),
-            lineno: 166
+            lineno: 200
           }));
           getText("assets/examples/" + name + ".alllines.json", __iced_deferrals.defer({
             assign_fn: (function() {
@@ -310,7 +352,7 @@
                 return allLines = arguments[0];
               };
             })(),
-            lineno: 167
+            lineno: 201
           }));
           __iced_deferrals._fulfill();
         });
@@ -491,12 +533,14 @@
       }
       width = lastPos + 1;
       getLeftCss = function(pos) {
-        return "calc(" + (pos * 98.0 / width) + "% - 2px)";
+        return "calc(" + (pos * 98.0 / width) + "% + 1px)";
       };
       showRev = this.state.showRev || this.linelog.getMaxRev();
       startRev = this.state.startRev || showRev;
       return div({
-        className: 'rev-selector'
+        className: 'rev-selector',
+        onMouseDown: this.handleRevisionBarClick.bind(this, xs),
+        onMouseMove: this.handleRevisionBarMouseMove.bind(this, xs)
       }, xs.map((function(_this) {
         return function(revpos) {
           var m, title;
@@ -506,11 +550,11 @@
           return span({
             key: rev,
             className: "rev-dot " + (pub && 'public'),
+            'data-rev': rev,
             style: {
               left: getLeftCss(pos)
             },
-            title: title,
-            onClick: _this.handleRevisionBarClick.bind(_this, rev)
+            title: title
           });
         };
       })(this)), span({

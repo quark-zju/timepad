@@ -62,11 +62,16 @@ head
       top: 1px;
       width: 3px;
       height: $rev-bar-height - 4px;
-      background-color: #729fcf;
-      cursor: pointer;
+      background-color: #3465a4;
       position: absolute;
       &.public {
         background-color: #4e9a06;
+        &:hover {
+          background-color: #73d216;
+        }
+      }
+      &:hover {
+        background-color: #729fcf;
       }
     }
     .rev-right-slider {

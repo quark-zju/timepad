@@ -4,4 +4,4 @@ index.html: index.slim
 	slimrb $^ > $@
 
 app.js: app.coffee
-	iced -I window -c $^
+	iced -I window -c $^ && sed -i "s#${PWD}/##" $@
