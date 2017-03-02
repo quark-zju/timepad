@@ -140,11 +140,9 @@ class App extends React.Component
 
   handleRevisionBarMouseMove: (xs, e) ->
     if e.buttons == 1
-      if @y?
-        e.nativeEvent.offsetY = @y
-      @handleRevisionBarClick(xs, e)
+      @handleRevisionBarClick(xs, e, @y)
 
-  handleRevisionBarClick: (xs, e) ->
+  handleRevisionBarClick: (xs, e, y) ->
     # find rev
     rev = null
     if e.target.tagName == 'SPAN'
@@ -166,8 +164,9 @@ class App extends React.Component
       rev = parseInt(rev)
 
     newState = {}
-    @y = e.nativeEvent.offsetY
-    if e.nativeEvent.offsetY <= e.target.clientHeight / 2
+    if not y?
+      @y = y = e.nativeEvent.offsetY
+    if y <= e.target.clientHeight / 2
       # set startRev
       newState.startRev = rev
       if rev >= @state.showRev and @state.showRev != null
@@ -350,9 +349,9 @@ class App extends React.Component
         [rev, pos, date, pub] = revpos
         m = moment(timeMap[rev])
         title = if pub
-                  "#{pub['node'][0..7]} by #{pub['user']} at #{m.format('MMM Do YY')}"
+                  "#{rev}:#{pub['node'][0..7]} by #{pub['user']} at #{m.format('MMM Do YY')}"
                 else
-                  "Local change #{m.fromNow()}"
+                  "#{rev}:(local change) #{m.fromNow()}"
         span key: rev, className: "rev-dot #{pub and 'public'}", 'data-rev': rev, style: {left: getLeftCss(pos)}, title: title
       span className: "rev-left-slider #{@state.startRev or 'follow'}", style: {left: getLeftCss(posMap[startRev])}
       span className: "rev-right-slider #{@state.showRev or 'follow'}", style: {left: getLeftCss(posMap[showRev])}

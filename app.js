@@ -254,14 +254,11 @@
 
     App.prototype.handleRevisionBarMouseMove = function(xs, e) {
       if (e.buttons === 1) {
-        if (this.y != null) {
-          e.nativeEvent.offsetY = this.y;
-        }
-        return this.handleRevisionBarClick(xs, e);
+        return this.handleRevisionBarClick(xs, e, this.y);
       }
     };
 
-    App.prototype.handleRevisionBarClick = function(xs, e) {
+    App.prototype.handleRevisionBarClick = function(xs, e, y) {
       var curPos, d, date, k, minDelta, needUpdate, newState, pos, pub, rev, revpos, tRev, v, width, _i, _len;
       rev = null;
       if (e.target.tagName === 'SPAN') {
@@ -286,8 +283,10 @@
         rev = parseInt(rev);
       }
       newState = {};
-      this.y = e.nativeEvent.offsetY;
-      if (e.nativeEvent.offsetY <= e.target.clientHeight / 2) {
+      if (y == null) {
+        this.y = y = e.nativeEvent.offsetY;
+      }
+      if (y <= e.target.clientHeight / 2) {
         newState.startRev = rev;
         if (rev >= this.state.showRev && this.state.showRev !== null) {
           newState.showRev = rev;
@@ -344,7 +343,7 @@
                 return linelogBuffer = arguments[0];
               };
             })(),
-            lineno: 200
+            lineno: 199
           }));
           getText("assets/examples/" + name + ".alllines.json", __iced_deferrals.defer({
             assign_fn: (function() {
@@ -352,7 +351,7 @@
                 return allLines = arguments[0];
               };
             })(),
-            lineno: 201
+            lineno: 200
           }));
           __iced_deferrals._fulfill();
         });
@@ -546,7 +545,7 @@
           var m, title;
           rev = revpos[0], pos = revpos[1], date = revpos[2], pub = revpos[3];
           m = moment(timeMap[rev]);
-          title = pub ? "" + pub['node'].slice(0, 8) + " by " + pub['user'] + " at " + (m.format('MMM Do YY')) : "Local change " + (m.fromNow());
+          title = pub ? "" + rev + ":" + pub['node'].slice(0, 8) + " by " + pub['user'] + " at " + (m.format('MMM Do YY')) : "" + rev + ":(local change) " + (m.fromNow());
           return span({
             key: rev,
             className: "rev-dot " + (pub && 'public'),
